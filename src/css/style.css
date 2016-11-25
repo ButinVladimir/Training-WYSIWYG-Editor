@@ -1,0 +1,6 @@
+#edit-field {
+    border: 1px solid black;
+    cursor: text;
+    height: 400px;
+    overflow: auto;
+}
