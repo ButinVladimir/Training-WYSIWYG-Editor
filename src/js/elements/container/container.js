@@ -1,5 +1,5 @@
 /**
- * Basic element
+ * Container element
  *
  * @constructor
  * @param {jQuery} $element
@@ -19,6 +19,9 @@ Container.prototype.delete = function(){
     throw new Error('Container cannot be deleted');
 };
 
+/**
+ * Update element styles
+ */
 Container.prototype.updateStyles = function(){
     if (this._applyInputs()) {
         var container = this._$element.children('.block-content').children('.site-container');

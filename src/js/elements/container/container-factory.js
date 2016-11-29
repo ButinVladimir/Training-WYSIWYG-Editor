@@ -1,3 +1,8 @@
+/**
+ * Container element factory
+ *
+ * @constructor
+ */
 function ContainerFactory(){
     BaseFactory.prototype.constructor.call(this);
 
@@ -13,13 +18,26 @@ ContainerFactory.getInstance = function(){
     return ContainerFactory._instance ? ContainerFactory._instance : ContainerFactory._instance = new ContainerFactory();
 };
 
+/**
+ * Create element handle
+ *
+ * @return {Container}
+ */
 ContainerFactory.prototype.createElement = function($element){
     var styles = Object.create(null, {});
     styles[STYLE_PADDING] = '0';
+    styles[STYLE_BORDER_WIDTH] = '0';
+    styles[STYLE_BORDER_STYLE] = 'none';
+    styles[STYLE_BORDER_COLOR] = '#000000';
 
     return new Container($element, styles);
 };
 
+/**
+ * Render element within block
+ *
+ * @return {jQuery}
+ */
 ContainerFactory.prototype.render = function(){
     return this._template.clone();
 };

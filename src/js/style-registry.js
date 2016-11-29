@@ -8,6 +8,15 @@ function StyleRegistry(){
 }
 
 /**
+ * Get instance of StyleRegistry 
+ *
+ * @return {StyleRegistry}
+ */
+StyleRegistry.getInstance = function(){
+    return StyleRegistry._instance ? StyleRegistry._instance : StyleRegistry._instance = new StyleRegistry();
+};
+
+/**
  * Add element to registry
  *
  * @param {string} id
@@ -45,7 +54,7 @@ StyleRegistry.prototype.hide = function(){
     for (var styleId in this._collection) {
         this._collection[styleId].toggle(false);
     }
-}
+};
 
 /**
  * Render all style inputs
@@ -56,13 +65,4 @@ StyleRegistry.prototype.render = function(){
     for (var styleId in this._collection) {
         this._collection[styleId].render().appendTo(inputBlock);
     }
-}
-
-/**
- *  Get instance of StyleRegistry 
- *
- * @return {StyleRegistry}
- */
-StyleRegistry.getInstance = function(){
-    return StyleRegistry._instance ? StyleRegistry._instance : StyleRegistry._instance = new StyleRegistry();
-}
+};

@@ -1,3 +1,8 @@
+/**
+ * Basic element factory
+ *
+ * @constructor
+ */
 function BaseFactory() {
     this.title = '';
     this._canBeDeleted = true;
@@ -8,10 +13,18 @@ function BaseFactory() {
     this._blockTemplate = this._jqueryCache.get('#block-template').children('.block-container');
 }
 
+/**
+ * Get instance of factory
+ */
 BaseFactory.getInstance = function() {
     throw new Error('Get instance method is not implemented');
 };
 
+/**
+ * Creates element and adds it to object registry
+ *
+ * @return {jQuery}
+ */
 BaseFactory.prototype.create = function(){
     var $block = this._blockTemplate.clone();
 
@@ -25,10 +38,16 @@ BaseFactory.prototype.create = function(){
     return $block;
 };
 
+/**
+ * Create element handle
+ */
 BaseFactory.prototype.createElement = function($element){
     throw new Error('Creating element is not implemented');
 };
 
+/**
+ * Render element within block
+ */
 BaseFactory.prototype.render = function(){
     throw new Error('Rendering is not implemented');
 };

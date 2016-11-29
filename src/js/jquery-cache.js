@@ -7,6 +7,15 @@ function JQueryCache(){
 }
 
 /**
+ * Get instance of JQueryCache 
+ *
+ * @return {JQueryCache}
+ */
+JQueryCache.getInstance = function(){
+    return JQueryCache._instance ? JQueryCache._instance : JQueryCache._instance = new JQueryCache();
+};
+
+/**
  * Get jquery element by query
  *
  * @param {string} query
@@ -19,13 +28,3 @@ JQueryCache.prototype.get = function(query){
 
     return this._collection[query];
 };
-
-
-/**
- *  Get instance of JQueryCache 
- *
- * @return {JQueryCache}
- */
-JQueryCache.getInstance = function(){
-    return JQueryCache._instance ? JQueryCache._instance : JQueryCache._instance = new JQueryCache();
-}

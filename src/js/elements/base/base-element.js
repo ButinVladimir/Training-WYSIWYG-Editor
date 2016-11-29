@@ -57,7 +57,7 @@ BaseElement.prototype.displayInputs = function(){
     for (var styleId in this._styles) {
         this._styleRegistry.get(styleId).toggle(true).setValue(this._styles[styleId]);
     }
-}
+};
 
 /**
  * Process style inputs
@@ -79,7 +79,7 @@ BaseElement.prototype._applyInputs = function(){
 
     this._styles = newStyles;
     return true;
-}
+};
 
 /**
  * Process style inputs
@@ -91,4 +91,4 @@ BaseElement.prototype._applyCss = function($element){
     }
 
     $element.attr('style', styles.join(';'));
-}
+};

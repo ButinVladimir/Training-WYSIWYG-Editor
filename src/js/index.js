@@ -9,7 +9,11 @@ $(function(){
         $styleInputs = jqueryCache.get("#style-inputs"),
         selected = null;
 
-    styleRegistry.add(STYLE_PADDING, new Padding())
+    styleRegistry
+        .add(STYLE_PADDING, new Padding())
+        .add(STYLE_BORDER_WIDTH, new BorderWidth())
+        .add(STYLE_BORDER_STYLE, new BorderStyle())
+        .add(STYLE_BORDER_COLOR, new BorderColor())
         .render();
 
 
@@ -37,7 +41,6 @@ $(function(){
 
 
     // Style input update
-
     $styleForm.on('submit', function(e) {
         e.preventDefault();
 

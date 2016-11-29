@@ -1,3 +1,8 @@
+/**
+ * Padding style
+ *
+ * @constuctor
+ */
 function Padding(){
     SizeStyle.prototype.constructor.call(this);
 

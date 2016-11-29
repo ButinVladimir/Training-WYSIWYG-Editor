@@ -8,6 +8,15 @@ function ObjectRegistry(){
 }
 
 /**
+ * Get instance of ObjectRegistry 
+ *
+ * @return {ObjectRegistry}
+ */
+ObjectRegistry.getInstance = function(){
+    return ObjectRegistry._instance ? ObjectRegistry._instance : ObjectRegistry._instance = new ObjectRegistry();
+};
+
+/**
  * Generate id string
  *
  * @return {string}
@@ -60,12 +69,3 @@ ObjectRegistry.prototype.delete = function(id){
     this._collection[id].delete();
     delete this._collection[id];
 };
-
-/**
- *  Get instance of ObjectRegistry 
- *
- * @return {ObjectRegistry}
- */
-ObjectRegistry.getInstance = function(){
-    return ObjectRegistry._instance ? ObjectRegistry._instance : ObjectRegistry._instance = new ObjectRegistry();
-}
