@@ -45,11 +45,6 @@ ColorStyle.prototype.render = function(){
  */
 ColorStyle.prototype.validate = function(){
     return true;
-    if  (!this._value.match(SizeStyle.regexp)) {
-        return false;
-    }
-
-    return true;
 };
 
 /**

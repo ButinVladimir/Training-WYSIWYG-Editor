@@ -2,6 +2,10 @@ body {
     padding-top: 50px;
 }
 
+textarea {
+    resize: vertical;
+}
+
 .content-container {
     padding: 15px 15px 15px 0;
 }
@@ -29,11 +33,20 @@ body {
     display: none;
 }
 
-.block-container.selected .block-buttons {
-    display: block;
-}
-.block-container .block-buttons,
-.block-container .block-content {
+.block-container > .block-buttons,
+.block-container > .block-content {
     border: 1px solid grey;
     padding: 10px;
+}
+
+.block-container.selected > .block-buttons,
+.block-container.selected > .block-content {
+    border: 2px solid lightblue;
+    display: block;
+    padding: 25px 40px;
+}
+
+.site-row {
+    width: 100%;
+    display: flex;
 }

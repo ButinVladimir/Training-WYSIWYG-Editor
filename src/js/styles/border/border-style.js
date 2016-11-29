@@ -8,12 +8,7 @@ function BorderStyle(){
 
     this._title = 'Border Style';
     this._param = 'border-style';
-    this._items = {
-        'none': 'None',
-        'dashed': 'Dashed',
-        'dotted': 'Dotted',
-        'solid': 'Solid'
-    };
+    this._items = config.styles.borderStyle.items;
 }
 
 BorderStyle.prototype = Object.create(SelectStyle.prototype, {});

@@ -4,9 +4,13 @@
  * @constructor
  * @param {jQuery} $element
  * @param {Object} styles
+ * @param {Array} supportedSubelements
  */
-function Container($element, styles){
-    BaseElement.prototype.constructor.call(this, $element, styles);
+function Container($element, styles, supportedSubelements){
+    BaseElement.prototype.constructor.call(this, $element, styles, supportedSubelements);
+
+    this._type = ELEMENT_CONTAINER;
+    this._canBeDeleted = false;
 }
 
 Container.prototype = Object.create(BaseElement.prototype, {});
@@ -23,9 +27,11 @@ Container.prototype.delete = function(){
  * Update element styles
  */
 Container.prototype.updateStyles = function(){
-    if (this._applyInputs()) {
+    if (this._applyStyleInputs()) {
         var container = this._$element.children('.block-content').children('.site-container');
 
         this._applyCss(container);
+
+        this._$element.attr('style', this._styleRegistry.get(STYLE_BACKGROUND).toStyle());
     }
 };

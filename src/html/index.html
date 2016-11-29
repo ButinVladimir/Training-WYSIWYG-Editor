@@ -55,14 +55,43 @@
         </div>
     </div>
 
+    <div id="modal-window" class="modal fade" tabindex="-1" role="dialog">
+        <div class="modal-dialog" role="document">
+            <div class="modal-content">
+                <div class="modal-header">
+                    <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
+                    <h4 class="modal-title">Edit object</h4>
+                </div>
+                <div class="modal-body">
+                </div>
+                <div class="modal-footer">
+                    <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
+                    <button type="button" class="btn btn-primary" id="modal-save">Save changes</button>
+                </div>
+            </div>
+        </div>
+    </div>
+
     <div class="templates hidden">
         <!-- Block template -->
         <div id="block-template">
             <div class="block-container">
                 <div class="block-buttons">
+                    <button class="btn btn-default btn-update">
+                        Update
+                    </button>
+
                     <button class="btn btn-default btn-delete">
                         Delete
                     </button>
+
+                    <button class="btn btn-default btn-move btn-move-prev">
+                        Move back
+                    </button>
+
+                    <button class="btn btn-default btn-move btn-move-next">
+                        Move forward
+                    </button>                    
                 </div>
                 <div class="block-content">
                 </div>
@@ -72,18 +101,42 @@
 
         <!-- Container template -->
         <div id="container-template">
-            <div class="site-container">hoishfshdfshdfshf</div>
+            <div class="site-container"></div>
         </div>
         <!-- End of container template -->
 
-        <!-- Size style template -->
-        <div id="size-style-template">
+        <!-- Row template -->
+        <div id="row-template">
+            <div class="site-row"></div>
+        </div>
+        <!-- End of row template -->
+
+        <!-- Column template -->
+        <div id="column-template">
+            <div class="site-column"></div>
+        </div>
+        <!-- End of column template -->
+
+        <!-- Text template -->
+        <div id="text-template">
+            <div class="site-text">This is sample text</div>
+        </div>
+        <!-- End of text template -->
+
+        <!-- Button template -->
+        <div id="button-template">
+            <button class="site-button">Click me</button>
+        </div>
+        <!-- End of text template -->
+
+        <!-- Input style template -->
+        <div id="input-style-template">
             <div class="form-group hidden">
                 <label></label>
                 <input class="form-control" type="text" name="">
             </div>
         </div>
-        <!-- End of size style template -->
+        <!-- End of input style template -->
 
         <!-- Select style template -->
         <div id="select-style-template">
@@ -102,28 +155,61 @@
             </div>
         </div>
         <!-- End of color style template -->
+
+        <!-- Content of modal window for text template -->
+        <div id="modal-text-template">
+            <div class="form-group">
+                <textarea class="form-control" name="text"></textarea>
+            </div>
+        </div>
+        <!-- End of content of modal window for text template -->
+
+        <!-- Content of modal window for button template -->
+        <div id="modal-button-template">
+            <div class="form-group">
+                <input class="form-control" name="text">
+            </div>
+        </div>
+        <!-- End of content of modal window for button template -->
     </div>
 
     <script type="text/javascript" src="https://code.jquery.com/jquery-3.1.1.min.js"></script>
     <script src="https://maxcdn.bootstrapcdn.com/bootstrap/3.3.7/js/bootstrap.min.js" integrity="sha384-Tc5IQib027qvyjSMfHjOMaLkfuWVxZxUPnCJA7l2mCWNIpG9mGCD8wGNIcPD7Txa" crossorigin="anonymous"></script>
 
     <!-- Registries -->
-    <script type="text/javascript" src="/js/jquery-cache.js"></script>
-    <script type="text/javascript" src="/js/object-registry.js"></script>
-    <script type="text/javascript" src="/js/style-registry.js"></script>
+    <script type="text/javascript" src="/js/registries/jquery-cache.js"></script>
+    <script type="text/javascript" src="/js/registries/object-factory-registry.js"></script>
+    <script type="text/javascript" src="/js/registries/object-registry.js"></script>
+    <script type="text/javascript" src="/js/registries/style-registry.js"></script>
 
     <!-- Elements -->
+    <script type="text/javascript" src="/js/elements/consts.js"></script>
+
     <script type="text/javascript" src="/js/elements/base/base-element.js"></script>
-    <script type="text/javascript" src="/js/elements/base/base-factory.js"></script>
+    <script type="text/javascript" src="/js/elements/base/base-element-factory.js"></script>
 
     <script type="text/javascript" src="/js/elements/container/container.js"></script>
     <script type="text/javascript" src="/js/elements/container/container-factory.js"></script>
+
+    <script type="text/javascript" src="/js/elements/row/row.js"></script>
+    <script type="text/javascript" src="/js/elements/row/row-factory.js"></script>
+
+    <script type="text/javascript" src="/js/elements/column/column.js"></script>
+    <script type="text/javascript" src="/js/elements/column/column-factory.js"></script>
+
+    <script type="text/javascript" src="/js/elements/text/text.js"></script>
+    <script type="text/javascript" src="/js/elements/text/text-factory.js"></script>   
+
+    <script type="text/javascript" src="/js/elements/button/button.js"></script>
+    <script type="text/javascript" src="/js/elements/button/button-factory.js"></script>   
 
     <!-- Styles -->
     <script type="text/javascript" src="/js/styles/consts.js"></script>
 
     <script type="text/javascript" src="/js/styles/base/base-style.js"></script>
+    <script type="text/javascript" src="/js/styles/base/input-style.js"></script>
     <script type="text/javascript" src="/js/styles/base/size-style.js"></script>
+    <script type="text/javascript" src="/js/styles/base/unumber-style.js"></script>
     <script type="text/javascript" src="/js/styles/base/select-style.js"></script>
     <script type="text/javascript" src="/js/styles/base/color-style.js"></script>
 
@@ -133,7 +219,26 @@
     <script type="text/javascript" src="/js/styles/border/border-style.js"></script>
     <script type="text/javascript" src="/js/styles/border/border-color.js"></script>
 
+    <script type="text/javascript" src="/js/styles/flex/justify-content.js"></script>
+    <script type="text/javascript" src="/js/styles/flex/align-items.js"></script>
+    <script type="text/javascript" src="/js/styles/flex/flex-grow.js"></script>
+    <script type="text/javascript" src="/js/styles/flex/flex-shrink.js"></script>
+
+    <script type="text/javascript" src="/js/styles/size/width.js"></script>
+    <script type="text/javascript" src="/js/styles/size/height.js"></script>
+
+    <script type="text/javascript" src="/js/styles/background/background.js"></script>
+
+    <script type="text/javascript" src="/js/styles/text/font-size.js"></script>
+    <script type="text/javascript" src="/js/styles/text/font-style.js"></script>
+    <script type="text/javascript" src="/js/styles/text/font-weight.js"></script>
+    <script type="text/javascript" src="/js/styles/text/text-color.js"></script>
+    <script type="text/javascript" src="/js/styles/text/text-decoration.js"></script>
+    <script type="text/javascript" src="/js/styles/text/text-align.js"></script>
+
     <!-- Entry -->
+    <script type="text/javascript" src="/js/config.js"></script>
+    <script type="text/javascript" src="/js/init.js"></script>
     <script type="text/javascript" src="/js/index.js"></script>
 </body>
 </html>

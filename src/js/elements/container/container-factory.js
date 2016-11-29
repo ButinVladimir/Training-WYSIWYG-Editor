@@ -4,16 +4,23 @@
  * @constructor
  */
 function ContainerFactory(){
-    BaseFactory.prototype.constructor.call(this);
+    BaseElementFactory.prototype.constructor.call(this);
 
-    this.title = 'Container';
-    this._canBeDeleted = false;
+    this._title = 'Container';
     this._template = this._jqueryCache.get('#container-template').children('.site-container');
+    this._supportedSubelements = config.elements.container.supportedSubelements;
+    this._canBeDeleted = false;
+    this._canBeMoved = false;
 }
 
-ContainerFactory.prototype = Object.create(BaseFactory.prototype, {});
+ContainerFactory.prototype = Object.create(BaseElementFactory.prototype, {});
 ContainerFactory.prototype.constructor = ContainerFactory;
 
+/**
+ * Get instance of factory
+ *
+ * @return {ContainerFactory}
+ */
 ContainerFactory.getInstance = function(){
     return ContainerFactory._instance ? ContainerFactory._instance : ContainerFactory._instance = new ContainerFactory();
 };
@@ -24,13 +31,7 @@ ContainerFactory.getInstance = function(){
  * @return {Container}
  */
 ContainerFactory.prototype.createElement = function($element){
-    var styles = Object.create(null, {});
-    styles[STYLE_PADDING] = '0';
-    styles[STYLE_BORDER_WIDTH] = '0';
-    styles[STYLE_BORDER_STYLE] = 'none';
-    styles[STYLE_BORDER_COLOR] = '#000000';
-
-    return new Container($element, styles);
+    return new Container($element, config.elements.container.styles, this._supportedSubelements);
 };
 
 /**
