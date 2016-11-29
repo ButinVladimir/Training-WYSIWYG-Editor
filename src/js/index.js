@@ -1,55 +1,47 @@
-$(function() {
-    var $editField = $('#edit-field');
-    var $boldButton = $('#bold-btn')
-    var selection = null;
+$(function(){
+    var objectRegistry = ObjectRegistry.getInstance(),
+        styleRegistry = StyleRegistry.getInstance(),
+        jqueryCache = JQueryCache.getInstance(),
+        containerFactory = ContainerFactory.getInstance(),
+        $contentContainer = jqueryCache.get("#content-container"),
+        $content = jqueryCache.get("#content"),
+        $styleForm = jqueryCache.get("#style-form"),
+        $styleInputs = jqueryCache.get("#style-inputs"),
+        selected = null;
 
-    function getSelectionRange() {
-        return window.getSelection().getRangeAt(0);
-    }
+    styleRegistry.add(STYLE_PADDING, new Padding())
+        .render();
 
-    function addBold(selection) {
-        console.dir(selection);
-        if (selection.startContainer.nodeType == Node.TEXT_NODE && selection.endContainer.nodeType == Node.TEXT_NODE) {
-            if (selection.commonAncestorContainer.nodeType == Node.TEXT_NODE) {
-                var start = selection.startOffset;
-                var finish = selection.endOffset;
 
-                if (finish > start) {
-                    var $node = $(selection.startContainer);
-                    var html = '';
-                    var nodeText = $node.text();
 
-                    if (selection.startOffset > 0) {
-                        html += nodeText.substring(0, selection.startOffset);
-                    }
+    // Add init container
+    $content.append(containerFactory.create());
 
-                    html += nodeText.substring(start, finish);
-
-                    if (selection.endOffset > 0) {
-                        html += nodeText.substring(finish, nodeText.length);
-                    }
-
-                    $node.replaceWith(html);
-                }
-            } else {
-                traverse(selection);
-            }
-        }
-    }
-
-    function traverse(selection) {
-        var startNode = selection.startContainer,
-            endNode = selection.endContainer,
-            commonAncestor = selection.commonAncestorContainer;
-    }
-
-    $editField.on('click keydown keyup', function(event) {
-        selection = getSelectionRange();
+    // Selection events
+    $contentContainer.on('click', function(e) {
+        selected = null;
+        $content.find('.selected').removeClass('selected');
+        $styleForm.addClass('hidden');
+        styleRegistry.hide();
     });
 
-    $boldButton.on('click', function(event) {
-        if (selection) {
-            addBold(selection);
-        }
+    $contentContainer.on('click', '.block-container', function(e) {
+        e.stopPropagation();
+        var $this = $(this);
+
+        selected = objectRegistry.get($this.attr('id'));
+        $this.addClass('selected');
+        $styleForm.removeClass('hidden');
+        selected.displayInputs();
     });
-})
+
+
+    // Style input update
+
+    $styleForm.on('submit', function(e) {
+        e.preventDefault();
+
+        selected.updateStyles();
+        return false;
+    });  
+});

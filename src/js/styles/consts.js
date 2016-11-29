@@ -1,0 +1,1 @@
+var STYLE_PADDING = 0;
