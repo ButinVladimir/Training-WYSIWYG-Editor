@@ -42,7 +42,7 @@ BaseElementFactory.prototype.create = function(){
         $blockButtons.find('.btn-update').remove();
     }
 
-    if ($blockButtons.children().length == 0) {
+    if ($blockButtons.children().length === 0) {
         $blockButtons.remove();
     }
 

@@ -12,7 +12,7 @@ var element = Object.assign({}, baseElement, {
     factoryClass: require('../../../elements/button/button-factory'),
     elementClass: require('../../../elements/button/button'),
     canBeUpdated: true,
-    default: 'Cliiick me',
+    default: 'Click me',
     modalTemplateId: '#modal-button-template',
 });
 

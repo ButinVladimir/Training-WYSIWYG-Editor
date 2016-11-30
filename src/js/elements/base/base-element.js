@@ -123,7 +123,7 @@ BaseElement.prototype._applyCss = function($element){
  */
 BaseElement.prototype.iterateSupportedSubelements = function(callback){
     this._supportedSubelements.forEach(callback);
-}
+};
 
 /**
  * Checks if subelement can be added directly
@@ -139,7 +139,7 @@ BaseElement.prototype.isSupportingSubelement = function(subelement){
     }
 
     return false;
-}
+};
 
 /**
  * Returns type of element

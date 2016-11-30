@@ -29,6 +29,6 @@ ButtonFactory.prototype.render = function(){
     $element.children('button').text(this._default);
 
     return $element;
-}
+};
 
 module.exports = ButtonFactory;

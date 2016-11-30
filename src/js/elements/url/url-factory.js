@@ -1,7 +1,7 @@
 var BaseElementFactory = require('../base/base-element-factory');
 
 /**
- * Text element factory
+ * Url element factory
  *
  * @constructor
  * @param {ObjectRegistry} objectRegistry
@@ -9,25 +9,29 @@ var BaseElementFactory = require('../base/base-element-factory');
  * @param {JQueryCache} jqueryCache
  * @param {Object} config
  */
-function TextFactory(objectRegistry, styleRegistry, jqueryCache, config){
+function UrlFactory(objectRegistry, styleRegistry, jqueryCache, config){
     BaseElementFactory.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config);
 
-    this._default = this._config.default;
+    this._defaultText = this._config.defaultText;
+    this._defaultUrl = this._config.defaultUrl;
 }
 
-TextFactory.prototype = Object.create(BaseElementFactory.prototype, {});
-TextFactory.prototype.constructor = TextFactory;
+UrlFactory.prototype = Object.create(BaseElementFactory.prototype, {});
+UrlFactory.prototype.constructor = UrlFactory;
 
 /**
  * Render element within block
  *
  * @return {jQuery}
  */
-TextFactory.prototype.render = function(){
+UrlFactory.prototype.render = function(){
     $element = BaseElementFactory.prototype.render.apply(this);
-    $element.text(this._default);
+
+    var $link = $element.children('a');
+    $link.text(this._defaultText);
+    $link.attr('href', this._defaultUrl);
 
     return $element;
 };
 
-module.exports = TextFactory;
+module.exports = UrlFactory;

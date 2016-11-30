@@ -11,6 +11,8 @@ var element = Object.assign({}, baseElement, {
         elementConsts.ELEMENT_ROW,
         elementConsts.ELEMENT_TEXT,
         elementConsts.ELEMENT_BUTTON,
+        elementConsts.ELEMENT_IMAGE,
+        elementConsts.ELEMENT_URL,
     ],
     factoryClass: require('../../../elements/column/column-factory'),
     elementClass: require('../../../elements/column/column'),

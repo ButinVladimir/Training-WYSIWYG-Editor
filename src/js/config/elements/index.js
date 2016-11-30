@@ -4,4 +4,6 @@ module.exports = [
     require('./column'),
     require('./text'),
     require('./button'),
+    require('./image'),
+    require('./url'),
 ];

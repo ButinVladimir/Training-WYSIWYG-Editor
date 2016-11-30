@@ -9,25 +9,25 @@ var BaseElementFactory = require('../base/base-element-factory');
  * @param {JQueryCache} jqueryCache
  * @param {Object} config
  */
-function TextFactory(objectRegistry, styleRegistry, jqueryCache, config){
+function ImageFactory(objectRegistry, styleRegistry, jqueryCache, config){
     BaseElementFactory.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config);
 
     this._default = this._config.default;
 }
 
-TextFactory.prototype = Object.create(BaseElementFactory.prototype, {});
-TextFactory.prototype.constructor = TextFactory;
+ImageFactory.prototype = Object.create(BaseElementFactory.prototype, {});
+ImageFactory.prototype.constructor = ImageFactory;
 
 /**
  * Render element within block
  *
  * @return {jQuery}
  */
-TextFactory.prototype.render = function(){
+ImageFactory.prototype.render = function(){
     $element = BaseElementFactory.prototype.render.apply(this);
-    $element.text(this._default);
+    $element.children('img').attr('src', this._default);
 
     return $element;
 };
 
-module.exports = TextFactory;
+module.exports = ImageFactory;
