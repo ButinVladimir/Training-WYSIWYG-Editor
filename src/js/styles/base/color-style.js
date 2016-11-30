@@ -1,16 +1,18 @@
+var BaseStyle = require('./base-style');
+
 /**
  * Style with color input
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function ColorStyle(){
-    BaseStyle.prototype.constructor.call(this);
+function ColorStyle(jqueryCache, config){
+    BaseStyle.prototype.constructor.call(this, jqueryCache, config);
 }
 
 ColorStyle.prototype = Object.create(BaseStyle.prototype, {});
 ColorStyle.prototype.constructor = ColorStyle;
-
-ColorStyle.regexp = /^-?(0|\d+(px|em|vm|vh))$/; 
 
 /**
  * Set style value
@@ -28,7 +30,7 @@ ColorStyle.prototype.setValue = function(value){
  * @return {jQuery}
  */
 ColorStyle.prototype.render = function(){
-    this._$element = this._jqueryCache.get('#color-style-template').children().clone();
+    this._$element = this.createElementContent();
     this._$element.find('label').html(this._title);
 
     var $input = this._$element.find('input');
@@ -53,3 +55,5 @@ ColorStyle.prototype.validate = function(){
 ColorStyle.prototype.updateValue = function(){
     this._value = this._$element.find('input').val();
 };
+
+module.exports = ColorStyle;

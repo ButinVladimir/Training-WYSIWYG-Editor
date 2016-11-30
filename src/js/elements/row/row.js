@@ -1,15 +1,19 @@
+var BaseElement = require('../base/base-element'),
+    elementConsts = require('../../consts/elements'),
+    styleConsts = require('../../consts/styles');
+
 /**
  * Row element
  *
  * @constructor
+ * @param {ObjectRegistry} objectRegistry
+ * @param {StyleRegistry} styleRegistry
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  * @param {jQuery} $element
- * @param {Object} styles
- * @param {Array} supportedSubelements
  */
-function Row($element, styles, supportedSubelements){
-    BaseElement.prototype.constructor.call(this, $element, styles, supportedSubelements);
-
-    this._type = ELEMENT_ROW;
+function Row(objectRegistry, styleRegistry, jqueryCache, config, $element){
+    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
 }
 
 Row.prototype = Object.create(BaseElement.prototype, {});
@@ -24,7 +28,7 @@ Row.prototype.updateStyles = function(){
 
         this._applyCss(container);
 
-        this._$element.attr('style', this._styleRegistry.get(STYLE_BACKGROUND).toStyle());
+        this._$element.attr('style', this._styleRegistry.get(styleConsts.STYLE_BACKGROUND).toStyle());
     }
 };
 
@@ -32,11 +36,13 @@ Row.prototype.updateStyles = function(){
  * Appends subelement to element
  */
 Row.prototype.appendSubelement = function(subelement){
-    if (subelement.getType() === ELEMENT_COLUMN) {
-        if (this._$element.children('.block-content').children('.site-row').children().length >= config.elements.row.maxColumns) {
+    if (subelement.getType() === elementConsts.ELEMENT_COLUMN) {
+        if (this._$element.children('.block-content').children('.site-row').children().length >= this._config.maxColumns) {
             throw new Error('Row already contains maximum amount of columns');
         }
     }
 
     BaseElement.prototype.appendSubelement.call(this, subelement);
 };
+
+module.exports = Row;

@@ -1,15 +1,17 @@
+var SelectStyle = require('../base/select-style');
+
 /**
  * Font weight style
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function FontWeight(){
-    SelectStyle.prototype.constructor.call(this);
-
-    this._title = 'Font Weight';
-    this._param = 'font-weight';
-    this._items = config.styles.fontWeight.items;
+function FontWeight(jqueryCache, config){
+    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
 }
 
 FontWeight.prototype = Object.create(SelectStyle.prototype, {});
 FontWeight.prototype.constructor = FontWeight;
+
+module.exports = FontWeight;

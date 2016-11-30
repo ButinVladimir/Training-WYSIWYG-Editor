@@ -1,15 +1,18 @@
+var BaseElement = require('../base/base-element'),
+    styleConsts = require('../../consts/styles');
+
 /**
  * Column element
  *
  * @constructor
+ * @param {ObjectRegistry} objectRegistry
+ * @param {StyleRegistry} styleRegistry
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  * @param {jQuery} $element
- * @param {Object} styles
- * @param {Array} supportedSubelements
  */
-function Column($element, styles, supportedSubelements){
-    BaseElement.prototype.constructor.call(this, $element, styles, supportedSubelements);
-
-    this._type = ELEMENT_COLUMN;
+function Column(objectRegistry, styleRegistry, jqueryCache, config, $element){
+    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
 }
 
 Column.prototype = Object.create(BaseElement.prototype, {});
@@ -25,10 +28,12 @@ Column.prototype.updateStyles = function(){
         this._applyCss(container);
 
         var elementStyles = [];
-        elementStyles.push(this._styleRegistry.get(STYLE_BACKGROUND).toStyle());
-        elementStyles.push(this._styleRegistry.get(STYLE_FLEX_GROW).toStyle());
-        elementStyles.push(this._styleRegistry.get(STYLE_FLEX_SHRINK).toStyle());
+        elementStyles.push(this._styleRegistry.get(styleConsts.STYLE_BACKGROUND).toStyle());
+        elementStyles.push(this._styleRegistry.get(styleConsts.STYLE_FLEX_GROW).toStyle());
+        elementStyles.push(this._styleRegistry.get(styleConsts.STYLE_FLEX_SHRINK).toStyle());
 
         this._$element.attr('style', elementStyles.join(';'));
     }
 };
+
+module.exports = Column;

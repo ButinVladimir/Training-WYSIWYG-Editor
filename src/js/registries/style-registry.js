@@ -1,10 +1,12 @@
+var BaseStyle = require('../styles/base/base-style');
+
 /**
  * Registry for all styles
+ * 
  * @constructor
  */
 function StyleRegistry(){
     this._collection = Object.create(null, {});
-    this._jqueryCache = JQueryCache.getInstance();
 }
 
 /**
@@ -58,11 +60,13 @@ StyleRegistry.prototype.hide = function(){
 
 /**
  * Render all style inputs
+ *
+ * @param {jQuery} $inputBlock
  */
-StyleRegistry.prototype.render = function(){
-    var inputBlock = this._jqueryCache.get('#style-inputs');
-
+StyleRegistry.prototype.render = function($inputBlock){
     for (var styleId in this._collection) {
-        this._collection[styleId].render().appendTo(inputBlock);
+        this._collection[styleId].render().appendTo($inputBlock);
     }
 };
+
+module.exports = StyleRegistry;

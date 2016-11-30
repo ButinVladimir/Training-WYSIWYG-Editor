@@ -1,10 +1,16 @@
+var BaseStyle = require('./base-style');
+
 /**
  * Style with text input
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function InputStyle(){
-    BaseStyle.prototype.constructor.call(this);
+function InputStyle(jqueryCache, config){
+    BaseStyle.prototype.constructor.call(this, jqueryCache, config);
+
+    this._regexp = this._config.regexp;
 }
 
 InputStyle.prototype = Object.create(BaseStyle.prototype, {});
@@ -26,7 +32,7 @@ InputStyle.prototype.setValue = function(value){
  * @return {jQuery}
  */
 InputStyle.prototype.render = function(){
-    this._$element = this._jqueryCache.get('#input-style-template').children().clone();
+    this._$element = this.createElementContent();
     this._$element.find('label').html(this._title);
 
     var $input = this._$element.find('input');
@@ -42,3 +48,18 @@ InputStyle.prototype.render = function(){
 InputStyle.prototype.updateValue = function(){
     this._value = this._$element.find('input').val();
 };
+
+/**
+ * Style value validation
+ *
+ * @return {boolean}
+ */
+InputStyle.prototype.validate = function(){
+    if  (!this._value.match(this.regexp)) {
+        return false;
+    }
+
+    return true;
+};
+
+module.exports = InputStyle;

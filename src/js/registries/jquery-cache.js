@@ -1,5 +1,6 @@
 /**
  * Cache for all jQuery objects
+ *
  * @constructor
  */
 function JQueryCache(){
@@ -28,3 +29,5 @@ JQueryCache.prototype.get = function(query){
 
     return this._collection[query];
 };
+
+module.exports = JQueryCache;

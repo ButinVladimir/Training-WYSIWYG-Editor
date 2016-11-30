@@ -2,21 +2,25 @@
  * Basic element
  *
  * @constructor
+ * @param {ObjectRegistry} objectRegistry
+ * @param {StyleRegistry} styleRegistry
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  * @param {jQuery} $element
- * @param {Object} styles
- * @param {Array} supportedSubelements
  */
-function BaseElement($element, styles, supportedSubelements){
+function BaseElement(objectRegistry, styleRegistry, jqueryCache, config, $element){
+    this._config = config;
     this._$element = $element;
-    this._objectRegistry = ObjectRegistry.getInstance();
-    this._styleRegistry = StyleRegistry.getInstance();
-    this._jqueryCache = JQueryCache.getInstance();
-    this._styles = styles;
-    this._id = '';
-    this._supportedSubelements = supportedSubelements;
+    this._objectRegistry = objectRegistry;
+    this._styleRegistry = styleRegistry;
+    this._jqueryCache = jqueryCache;
+    this._styles = Object.assign({}, this._config.styles);
+    this._supportedSubelements = this._config.supportedSubelements;
+    this._type = this._config.type;
+    this._canBeDeleted = this._config.canBeDeleted;
+    this._canBeUpdated = this._config.canBeUpdated;
 
-    this._type = null;
-    this._canBeDeleted = true;
+    this._id = '';
 }
 
 /**
@@ -96,7 +100,7 @@ BaseElement.prototype._applyStyleInputs = function(){
         newStyles[styleId] = styleInput.getValue();
     }
 
-    this._styles = newStyles;
+    Object.assign(this._styles, newStyles);
     return true;
 };
 
@@ -165,3 +169,5 @@ BaseElement.prototype.appendSubelement = function(subelement){
 
     this._$element.children('.block-content').children().append(subelement.getElement());
 };
+
+module.exports = BaseElement;

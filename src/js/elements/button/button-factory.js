@@ -1,37 +1,23 @@
+var BaseElementFactory = require('../base/base-element-factory');
+
 /**
  * Button element factory
  *
  * @constructor
+ * @param {ObjectRegistry} objectRegistry
+ * @param {StyleRegistry} styleRegistry
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
+ * @param {jQuery} $element
  */
-function ButtonFactory(){
-    BaseElementFactory.prototype.constructor.call(this);
+function ButtonFactory(objectRegistry, styleRegistry, jqueryCache, config, $element){
+    BaseElementFactory.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
 
-    this._title = 'Button';
-    this._template = this._jqueryCache.get('#button-template').children('.site-button');
-    this._supportedSubelements = config.elements.button.supportedSubelements;
-    this._canBeUpdated = true;
+    this._default = this._config.default;
 }
 
 ButtonFactory.prototype = Object.create(BaseElementFactory.prototype, {});
 ButtonFactory.prototype.constructor = ButtonFactory;
-
-/**
- * Get instance of factory
- *
- * @return {ButtonFactory}
- */
-ButtonFactory.getInstance = function(){
-    return ButtonFactory._instance ? ButtonFactory._instance : ButtonFactory._instance = new ButtonFactory();
-};
-
-/**
- * Create element handle
- *
- * @return {Text}
- */
-ButtonFactory.prototype.createElement = function($element){
-    return new Button($element, config.elements.button.styles, this._supportedSubelements);
-};
 
 /**
  * Render element within block
@@ -39,5 +25,10 @@ ButtonFactory.prototype.createElement = function($element){
  * @return {jQuery}
  */
 ButtonFactory.prototype.render = function(){
-    return this._template.clone();
-};
+    $element = BaseElementFactory.prototype.render.apply(this);
+    $element.children('button').text(this._default);
+
+    return $element;
+}
+
+module.exports = ButtonFactory;

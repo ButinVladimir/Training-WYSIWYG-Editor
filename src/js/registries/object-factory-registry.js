@@ -1,5 +1,8 @@
+var BaseElementFactory = require('../elements/base/base-element-factory');
+
 /**
  * Registry for all element factories
+ *
  * @constructor
  */
 function ObjectFactoryRegistry(){
@@ -45,3 +48,5 @@ ObjectFactoryRegistry.prototype.get = function(id){
 
     return this._collection[id];
 };
+
+module.exports = ObjectFactoryRegistry;

@@ -1,15 +1,17 @@
+var SelectStyle = require('../base/select-style');
+
 /**
  * Align items style
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function AlignItems(){
-    SelectStyle.prototype.constructor.call(this);
-
-    this._title = 'Align Items';
-    this._param = 'align-items';
-    this._items = config.styles.alignItems.items;
+function AlignItems(jqueryCache, config){
+    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
 }
 
 AlignItems.prototype = Object.create(SelectStyle.prototype, {});
 AlignItems.prototype.constructor = AlignItems;
+
+module.exports = AlignItems;

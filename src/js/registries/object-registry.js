@@ -1,5 +1,8 @@
+var BaseElement = require('../elements/base/base-element');
+
 /**
  * Registry for all elements
+ *
  * @constructor
  */
 function ObjectRegistry(){
@@ -69,3 +72,5 @@ ObjectRegistry.prototype.delete = function(id){
     this._collection[id].delete();
     delete this._collection[id];
 };
+
+module.exports = ObjectRegistry;

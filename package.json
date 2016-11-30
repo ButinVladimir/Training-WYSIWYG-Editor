@@ -1,5 +1,5 @@
 {
-  "name": "wysiwys_editor",
+  "name": "wysiwyg_editor",
   "version": "0.0.1",
   "description": "",
   "main": "index.js",
@@ -17,12 +17,18 @@
   },
   "homepage": "https://github.com/ButinVladimir/Training-WYSIWYG-Editor#readme",
   "devDependencies": {
+    "browserify": "^13.1.1",
     "gulp": "^3.9.1",
     "gulp-connect": "^5.0.0",
     "gulp-csslint": "^1.0.0",
     "gulp-htmllint": "0.0.11",
     "gulp-jshint": "^2.0.4",
     "gulp-plumber": "^1.1.0",
-    "jshint": "^2.9.4"
+    "gulp-util": "^3.0.7",
+    "jshint": "^2.9.4",
+    "lodash.assign": "^4.2.0",
+    "vinyl-buffer": "^1.0.0",
+    "vinyl-source-stream": "^1.1.0",
+    "watchify": "^3.7.0"
   }
 }

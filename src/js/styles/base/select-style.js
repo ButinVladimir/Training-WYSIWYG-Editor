@@ -1,11 +1,16 @@
+var BaseStyle = require('./base-style');
+
 /**
  * Style with select input
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function SelectStyle(){
-    BaseStyle.prototype.constructor.call(this);
-    this._items = {};
+function SelectStyle(jqueryCache, config){
+    BaseStyle.prototype.constructor.call(this, jqueryCache, config);
+
+    this._items = this._config.items;
 }
 
 SelectStyle.prototype = Object.create(BaseStyle.prototype, {});
@@ -31,7 +36,7 @@ SelectStyle.prototype.setValue = function(value){
  * @return {jQuery}
  */
 SelectStyle.prototype.render = function(){
-    this._$element = this._jqueryCache.get('#select-style-template').children().clone();
+    this._$element = this.createElementContent();
     this._$element.find('label').html(this._title);
 
     var $select = this._$element.find('select');
@@ -64,3 +69,5 @@ SelectStyle.prototype.validate = function(){
 SelectStyle.prototype.updateValue = function(){
     this._value = this._$element.find('select').val();
 };
+
+module.exports = SelectStyle;

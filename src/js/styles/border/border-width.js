@@ -1,14 +1,17 @@
+var InputStyle = require('../base/input-style');
+
 /**
  * Border width style
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function BorderWidth(){
-    SizeStyle.prototype.constructor.call(this);
-
-    this._title = 'Border Width';
-    this._param = 'border-width';
+function BorderWidth(jqueryCache, config){
+    InputStyle.prototype.constructor.call(this, jqueryCache, config);
 }
 
-BorderWidth.prototype = Object.create(SizeStyle.prototype, {});
+BorderWidth.prototype = Object.create(InputStyle.prototype, {});
 BorderWidth.prototype.constructor = BorderWidth;
+
+module.exports = BorderWidth;

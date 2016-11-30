@@ -29,18 +29,22 @@ textarea {
     cursor: pointer;
 }
 
-.block-container .block-buttons {
+.block-container > .block-buttons {
     display: none;
 }
 
-.block-container > .block-buttons,
-.block-container > .block-content {
+.block-container:hover > .block-title,
+.block-container.selected > .block-title {
+    background: #777;
+    color: white;
+}
+
+.block-container > .block-container-inner {
     border: 1px solid grey;
     padding: 10px;
 }
 
-.block-container.selected > .block-buttons,
-.block-container.selected > .block-content {
+.block-container.selected > .block-container-inner {
     border: 2px solid lightblue;
     display: block;
     padding: 25px 40px;
@@ -49,4 +53,5 @@ textarea {
 .site-row {
     width: 100%;
     display: flex;
+    flex-wrap: wrap;
 }

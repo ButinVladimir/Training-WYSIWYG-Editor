@@ -1,15 +1,17 @@
+var SelectStyle = require('../base/select-style');
+
 /**
  * Text align style
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function TextAlign(){
-    SelectStyle.prototype.constructor.call(this);
-
-    this._title = 'Text Align';
-    this._param = 'text-align';
-    this._items = config.styles.textAlign.items;
+function TextAlign(jqueryCache, config){
+    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
 }
 
 TextAlign.prototype = Object.create(SelectStyle.prototype, {});
 TextAlign.prototype.constructor = TextAlign;
+
+module.exports = TextAlign;

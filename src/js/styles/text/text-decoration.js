@@ -1,15 +1,17 @@
+var SelectStyle = require('../base/select-style');
+
 /**
  * Text decoration style
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function TextDecoration(){
-    SelectStyle.prototype.constructor.call(this);
-
-    this._title = 'Text Decoration';
-    this._param = 'text-decoration';
-    this._items = config.styles.textDecoration.items;
+function TextDecoration(jqueryCache, config){
+    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
 }
 
 TextDecoration.prototype = Object.create(SelectStyle.prototype, {});
 TextDecoration.prototype.constructor = TextDecoration;
+
+module.exports = TextDecoration;

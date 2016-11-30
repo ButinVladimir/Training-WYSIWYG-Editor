@@ -1,37 +1,22 @@
+var BaseElementFactory = require('../base/base-element-factory');
+
 /**
  * Text element factory
  *
  * @constructor
+ * @param {ObjectRegistry} objectRegistry
+ * @param {StyleRegistry} styleRegistry
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function TextFactory(){
-    BaseElementFactory.prototype.constructor.call(this);
+function TextFactory(objectRegistry, styleRegistry, jqueryCache, config){
+    BaseElementFactory.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config);
 
-    this._title = 'Text';
-    this._template = this._jqueryCache.get('#text-template').children('.site-text');
-    this._supportedSubelements = config.elements.text.supportedSubelements;
-    this._canBeUpdated = true;
+    this._default = this._config.default;
 }
 
 TextFactory.prototype = Object.create(BaseElementFactory.prototype, {});
 TextFactory.prototype.constructor = TextFactory;
-
-/**
- * Get instance of factory
- *
- * @return {TextFactory}
- */
-TextFactory.getInstance = function(){
-    return TextFactory._instance ? TextFactory._instance : TextFactory._instance = new TextFactory();
-};
-
-/**
- * Create element handle
- *
- * @return {Text}
- */
-TextFactory.prototype.createElement = function($element){
-    return new Text($element, config.elements.text.styles, this._supportedSubelements);
-};
 
 /**
  * Render element within block
@@ -39,5 +24,10 @@ TextFactory.prototype.createElement = function($element){
  * @return {jQuery}
  */
 TextFactory.prototype.render = function(){
-    return this._template.clone();
-};
+    $element = BaseElementFactory.prototype.render.apply(this);
+    $element.text(this._default);
+
+    return $element;
+}
+
+module.exports = TextFactory;

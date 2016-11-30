@@ -2,26 +2,24 @@
  * Basic element factory
  *
  * @constructor
+ * @param {ObjectRegistry} objectRegistry
+ * @param {StyleRegistry} styleRegistry
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function BaseElementFactory() {
-    this._objectRegistry = ObjectRegistry.getInstance();
-    this._jqueryCache = JQueryCache.getInstance();
+function BaseElementFactory(objectRegistry, styleRegistry, jqueryCache, config){
+    this._objectRegistry = objectRegistry;
+    this._styleRegistry = styleRegistry;
+    this._jqueryCache = jqueryCache;
+    this._config = config;
     this._blockTemplate = this._jqueryCache.get('#block-template').children('.block-container');
 
-    this._title = '';
-    this._canBeDeleted = true;
-    this._canBeMoved = true;
-    this._canBeUpdated = false;
-    this._template = null;
-    this._supportedSubelements = [];
+    this._title = this._config.title;
+    this._canBeDeleted = this._config.canBeDeleted;
+    this._canBeMoved = this._config.canBeMoved;
+    this._canBeUpdated = this._config.canBeUpdated;
+    this._template = this._jqueryCache.get(this._config.templateId).children(this._config.templateSelector);
 }
-
-/**
- * Get instance of factory
- */
-BaseElementFactory.getInstance = function() {
-    throw new Error('Get instance method is not implemented');
-};
 
 /**
  * Creates element and adds it to object registry
@@ -29,21 +27,28 @@ BaseElementFactory.getInstance = function() {
  * @return {jQuery}
  */
 BaseElementFactory.prototype.create = function(){
-    var $block = this._blockTemplate.clone();
+    var $block = this._blockTemplate.clone(),
+        $blockButtons = $block.children('.block-buttons');
 
     if (!this._canBeDeleted) {
-        $block.find('.btn-delete').remove();
+        $blockButtons.find('.btn-delete').remove();
     }
 
     if (!this._canBeMoved) {
-        $block.find('.btn-move').remove();
+        $blockButtons.find('.btn-move').remove();
     }
 
     if (!this._canBeUpdated) {
-        $block.find('.btn-update').remove();
+        $blockButtons.find('.btn-update').remove();
     }
 
-    $block.find('.block-content').append(this.render());
+    if ($blockButtons.children().length == 0) {
+        $blockButtons.remove();
+    }
+
+    $block.children('.block-content').append(this.render());
+    $block.children('.block-title').text(this._title);
+
     var element = this.createElement($block);
     this._objectRegistry.add(element);
 
@@ -54,14 +59,16 @@ BaseElementFactory.prototype.create = function(){
  * Create element handle
  */
 BaseElementFactory.prototype.createElement = function($element){
-    throw new Error('Creating element is not implemented');
+    return new this._config.elementClass(this._objectRegistry, this._styleRegistry, this._jqueryCache, this._config, $element);
 };
 
 /**
  * Render element within block
+ *
+ * @return {jQuery}
  */
 BaseElementFactory.prototype.render = function(){
-    throw new Error('Rendering is not implemented');
+    return this._template.clone();
 };
 
 /**
@@ -72,3 +79,5 @@ BaseElementFactory.prototype.render = function(){
 BaseElementFactory.prototype.getTitle = function(){
     return this._title;
 };
+
+module.exports = BaseElementFactory;

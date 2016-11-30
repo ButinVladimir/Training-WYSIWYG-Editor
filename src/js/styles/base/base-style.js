@@ -2,12 +2,16 @@
  * Basic style
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function BaseStyle(){
-    this._jqueryCache = JQueryCache.getInstance();
+function BaseStyle(jqueryCache, config){
+    this._jqueryCache = jqueryCache;
+    this._config = config;
 
-    this._param = '';
-    this._title = '';
+    this._param = this._config.param;
+    this._title = this._config.title;
+    this._templateId = this._config.templateId;
     this._value = '';
     this._$element = null;
 }
@@ -82,3 +86,14 @@ BaseStyle.prototype.getValue = function(){
 BaseStyle.prototype.getError = function(){
     return "Invalid " + this._param + " value";
 };
+
+/**
+ * Create element content from template
+ *
+ * @return {jQuery}
+ */
+BaseStyle.prototype.createElementContent = function(){
+    return this._jqueryCache.get(this._templateId).children().clone();
+};
+
+module.exports = BaseStyle;

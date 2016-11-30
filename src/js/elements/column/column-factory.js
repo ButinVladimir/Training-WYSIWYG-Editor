@@ -1,43 +1,19 @@
+var BaseElementFactory = require('../base/base-element-factory');
+
 /**
  * Column element factory
  *
  * @constructor
+ * @param {ObjectRegistry} objectRegistry
+ * @param {StyleRegistry} styleRegistry
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function ColumnFactory(){
-    BaseElementFactory.prototype.constructor.call(this);
-
-    this._title = 'Column';
-    this._template = this._jqueryCache.get('#column-template').children('.site-column');
-    this._supportedSubelements = config.elements.column.supportedSubelements;
+function ColumnFactory(objectRegistry, styleRegistry, jqueryCache, config){
+    BaseElementFactory.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config);
 }
 
 ColumnFactory.prototype = Object.create(BaseElementFactory.prototype, {});
 ColumnFactory.prototype.constructor = ColumnFactory;
 
-/**
- * Get instance of factory
- *
- * @return {ColumnFactory}
- */
-ColumnFactory.getInstance = function(){
-    return ColumnFactory._instance ? ColumnFactory._instance : ColumnFactory._instance = new ColumnFactory();
-};
-
-/**
- * Create element handle
- *
- * @return {Column}
- */
-ColumnFactory.prototype.createElement = function($element){
-
-    return new Column($element, config.elements.column.styles, this._supportedSubelements);
-};
-
-/**
- * Render element within block
- *
- * @return {jQuery}
- */
-ColumnFactory.prototype.render = function(){
-    return this._template.clone();
-};
+module.exports = ColumnFactory;

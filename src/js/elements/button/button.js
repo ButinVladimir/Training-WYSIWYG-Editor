@@ -1,18 +1,20 @@
+var BaseElement = require('../base/base-element');
+
 /**
  * Button element
  *
  * @constructor
+ * @param {ObjectRegistry} objectRegistry
+ * @param {StyleRegistry} styleRegistry
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  * @param {jQuery} $element
- * @param {Object} styles
- * @param {Array} supportedSubelements
  */
-function Button($element, styles, supportedSubelements){
-    BaseElement.prototype.constructor.call(this, $element, styles, supportedSubelements);
+function Button(objectRegistry, styleRegistry, jqueryCache, config, $element){
+    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
 
-    this._type = ELEMENT_BUTTON;
-    this._text = config.elements.button.default;
-    this._canBeUpdated = true;
-    this._modalTemplate = this._jqueryCache.get('#modal-button-template').children();
+    this._text = this._config.default;
+    this._modalTemplate = this._jqueryCache.get(this._config.modalTemplateId).children();
 }
 
 Button.prototype = Object.create(BaseElement.prototype, {});
@@ -23,7 +25,7 @@ Button.prototype.constructor = Button;
  */
 Button.prototype.updateStyles = function(){
     if (this._applyStyleInputs()) {
-        var container = this._$element.children('.block-content').children('.site-button');
+        var container = this._$element.children('.block-content').children('.site-button').children('button');
 
         this._applyCss(container);
     }
@@ -42,5 +44,7 @@ Button.prototype.prepareModalWindow = function($modalWindow){
  */
 Button.prototype.update = function($modalWindow){
     this._text = $modalWindow.find('input[name=text]').val();
-    this._$element.children('.block-content').children('.site-button').text(this._text);
+    this._$element.children('.block-content').children('.site-button').children('button').text(this._text);
 };
+
+module.exports = Button;

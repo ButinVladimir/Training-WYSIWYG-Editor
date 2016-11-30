@@ -1,14 +1,17 @@
+var InputStyle = require('../base/input-style');
+
 /**
  * Flex shrink style
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function FlexShrink(){
-    UnumberStyle.prototype.constructor.call(this);
-
-    this._title = 'Flex Shrink';
-    this._param = 'flex-shrink';
+function FlexShrink(jqueryCache, config){
+    InputStyle.prototype.constructor.call(this, jqueryCache, config);
 }
 
-FlexShrink.prototype = Object.create(UnumberStyle.prototype, {});
+FlexShrink.prototype = Object.create(InputStyle.prototype, {});
 FlexShrink.prototype.constructor = FlexShrink;
+
+module.exports = FlexShrink;

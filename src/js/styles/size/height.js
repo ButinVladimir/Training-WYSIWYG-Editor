@@ -1,14 +1,17 @@
+var InputStyle = require('../base/input-style');
+
 /**
  * Height style
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function Height(){
-    SizeStyle.prototype.constructor.call(this);
-
-    this._title = 'Height';
-    this._param = 'height';
+function Height(jqueryCache, config){
+    InputStyle.prototype.constructor.call(this, jqueryCache, config);
 }
 
-Height.prototype = Object.create(SizeStyle.prototype, {});
+Height.prototype = Object.create(InputStyle.prototype, {});
 Height.prototype.constructor = Height;
+
+module.exports = Height;

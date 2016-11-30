@@ -1,18 +1,20 @@
+var BaseElement = require('../base/base-element');
+
 /**
  * Text element
  *
  * @constructor
+ * @param {ObjectRegistry} objectRegistry
+ * @param {StyleRegistry} styleRegistry
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  * @param {jQuery} $element
- * @param {Object} styles
- * @param {Array} supportedSubelements
  */
-function Text($element, styles, supportedSubelements){
-    BaseElement.prototype.constructor.call(this, $element, styles, supportedSubelements);
+function Text(objectRegistry, styleRegistry, jqueryCache, config, $element){
+    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
 
-    this._type = ELEMENT_TEXT;
-    this._text = config.elements.text.default;
-    this._canBeUpdated = true;
-    this._modalTemplate = this._jqueryCache.get('#modal-text-template').children();
+    this._text = this._config.default;
+    this._modalTemplate = this._jqueryCache.get(this._config.modalTemplateId).children();
 }
 
 Text.prototype = Object.create(BaseElement.prototype, {});
@@ -44,3 +46,5 @@ Text.prototype.update = function($modalWindow){
     this._text = $modalWindow.find('textarea[name=text]').val();
     this._$element.children('.block-content').children('.site-text').text(this._text);
 };
+
+module.exports = Text;

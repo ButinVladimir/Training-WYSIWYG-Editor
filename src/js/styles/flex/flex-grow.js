@@ -1,14 +1,17 @@
+var InputStyle = require('../base/input-style');
+
 /**
  * Flex grow style
  *
  * @constuctor
+ * @param {JQueryCache} jqueryCache
+ * @param {Object} config
  */
-function FlexGrow(){
-    UnumberStyle.prototype.constructor.call(this);
-
-    this._title = 'Flex Grow';
-    this._param = 'flex-grow';
+function FlexGrow(jqueryCache, config){
+    InputStyle.prototype.constructor.call(this, jqueryCache, config);
 }
 
-FlexGrow.prototype = Object.create(UnumberStyle.prototype, {});
+FlexGrow.prototype = Object.create(InputStyle.prototype, {});
 FlexGrow.prototype.constructor = FlexGrow;
+
+module.exports = FlexGrow;
