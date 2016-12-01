@@ -1,3 +1,3 @@
 module.exports = {
-    templateId: '#color-style-template'
+    template: 'templates/styles/color-style.html'
 };

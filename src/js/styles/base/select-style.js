@@ -4,11 +4,11 @@ var BaseStyle = require('./base-style');
  * Style with select input
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function SelectStyle(jqueryCache, config){
-    BaseStyle.prototype.constructor.call(this, jqueryCache, config);
+function SelectStyle(templateCache, config){
+    BaseStyle.prototype.constructor.call(this, templateCache, config);
 
     this._items = this._config.items;
 }
@@ -19,35 +19,40 @@ SelectStyle.prototype.constructor = SelectStyle;
 /**
  * Set style value
  *
- * @param {string}
+ * @param {string} value
+ * @param {bool} updateInput
  */
-SelectStyle.prototype.setValue = function(value){
+SelectStyle.prototype.setValue = function(value, updateInput){
     if (!(value in this._items)) {
         throw new Error('Invalid value');
     }
 
     this._value = value;
-    this._$element.find('select').val(value);
+    
+    if (updateInput) {
+        this._$element.find('select').val(value);
+    }
 };
 
 /**
  * Render style input
  *
- * @return {jQuery}
+ * @return {Promise}
  */
 SelectStyle.prototype.render = function(){
-    this._$element = this.createElementContent();
-    this._$element.find('label').html(this._title);
+    return this._createElementContent().then((function() {
+        this._$element.find('label').html(this._title);
 
-    var $select = this._$element.find('select');
-    for (var itemValue in this._items) {
-        $select.append($('<option>', {value: itemValue, text: this._items[itemValue]}));
-    }
+        var $select = this._$element.find('select');
+        for (var itemValue in this._items) {
+            $select.append($('<option>', {value: itemValue, text: this._items[itemValue]}));
+        }
 
-    $select.val(this._value);
-    $select.attr('name', this._param);
+        $select.val(this._value);
+        $select.attr('name', this._param);
 
-    return this._$element;
+        return this._$element;
+    }).bind(this));
 };
 
 /**

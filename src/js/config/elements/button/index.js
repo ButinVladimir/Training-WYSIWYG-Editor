@@ -5,15 +5,15 @@ var baseElement = require('../base'),
 var element = Object.assign({}, baseElement, {
     title: 'Button',
     type: elementConsts.ELEMENT_BUTTON,
-    templateId: '#button-template',
+    template: 'templates/elements/button.html',
     templateSelector: '.site-button',
     supportedSubelements: [
     ],
     factoryClass: require('../../../elements/button/button-factory'),
     elementClass: require('../../../elements/button/button'),
     canBeUpdated: true,
-    default: 'Click me',
-    modalTemplateId: '#modal-button-template',
+    text: 'Click me',
+    modalTemplate: 'templates/modals/button.html',
 });
 
 element.styles = Object.create(null, {});

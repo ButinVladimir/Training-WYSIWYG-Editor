@@ -4,11 +4,11 @@ var SelectStyle = require('../base/select-style');
  * Font style style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function FontStyle(jqueryCache, config){
-    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
+function FontStyle(templateCache, config){
+    SelectStyle.prototype.constructor.call(this, templateCache, config);
 }
 
 FontStyle.prototype = Object.create(SelectStyle.prototype, {});

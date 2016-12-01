@@ -4,11 +4,11 @@ var SelectStyle = require('../base/select-style');
  * Text decoration style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function TextDecoration(jqueryCache, config){
-    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
+function TextDecoration(templateCache, config){
+    SelectStyle.prototype.constructor.call(this, templateCache, config);
 }
 
 TextDecoration.prototype = Object.create(SelectStyle.prototype, {});

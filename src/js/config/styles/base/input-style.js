@@ -1,4 +1,4 @@
 module.exports = {
     regexp: /^.*$/,
-    templateId: '#input-style-template'
+    template: 'templates/styles/input-style.html'
 };

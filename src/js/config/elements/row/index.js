@@ -5,7 +5,7 @@ var baseElement = require('../base'),
 var element = Object.assign({}, baseElement, {
     title: 'Row',
     type: elementConsts.ELEMENT_ROW,
-    templateId: '#row-template',
+    template: 'templates/elements/row.html',
     templateSelector: '.site-row',
     supportedSubelements: [
         elementConsts.ELEMENT_COLUMN

@@ -7,13 +7,11 @@ var BaseElementFactory = require('../base/base-element-factory');
  * @param {ObjectRegistry} objectRegistry
  * @param {StyleRegistry} styleRegistry
  * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
- * @param {jQuery} $element
  */
-function ButtonFactory(objectRegistry, styleRegistry, jqueryCache, config, $element){
-    BaseElementFactory.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
-
-    this._default = this._config.default;
+function ButtonFactory(objectRegistry, styleRegistry, jqueryCache, templateCache, config){
+    BaseElementFactory.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, templateCache, config);
 }
 
 ButtonFactory.prototype = Object.create(BaseElementFactory.prototype, {});
@@ -22,13 +20,17 @@ ButtonFactory.prototype.constructor = ButtonFactory;
 /**
  * Render element within block
  *
- * @return {jQuery}
+ * @param {Object} customConfig
+ * @return {Promise}
  */
-ButtonFactory.prototype.render = function(){
-    $element = BaseElementFactory.prototype.render.apply(this);
-    $element.children('button').text(this._default);
+ButtonFactory.prototype.render = function(customConfig){
+    var config = customConfig || this._config;
 
-    return $element;
+    return BaseElementFactory.prototype.render.apply(this).then((function($element) {
+        $element.children('button').text(config.text);
+
+        return $element;
+    }).bind(this));
 };
 
 module.exports = ButtonFactory;

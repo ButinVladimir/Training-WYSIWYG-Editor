@@ -7,14 +7,14 @@ var BaseElement = require('../base/base-element');
  * @param {ObjectRegistry} objectRegistry
  * @param {StyleRegistry} styleRegistry
  * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  * @param {jQuery} $element
  */
-function Text(objectRegistry, styleRegistry, jqueryCache, config, $element){
-    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
+function Text(objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element){
+    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element);
 
-    this._text = this._config.default;
-    this._modalTemplate = this._jqueryCache.get(this._config.modalTemplateId).children();
+    this._text = this._config.text;
 }
 
 Text.prototype = Object.create(BaseElement.prototype, {});
@@ -23,24 +23,25 @@ Text.prototype.constructor = Text;
 /**
  * Update element styles
  */
-Text.prototype.updateStyles = function(){
-    if (this._applyStyleInputs()) {
-        var container = this._$element.children('.block-content').children('.site-text');
+Text.prototype._applyStyles = function(){
+    var container = this._$element.children('.block-content').children('.site-text');
 
-        this._applyCss(container);
-    }
+    this._applyCss(container);
 };
 
 /**
  * Prepare modal window for update
+ *
+ * @param {jQuery} $modalWindow
  */
-Text.prototype.prepareModalWindow = function($modalWindow){
-    $modalWindow.find('.modal-body').append(this._modalTemplate.clone());
+Text.prototype._prepareModalWindow = function($modalWindow){
     $modalWindow.find('textarea[name=text]').val(this._text);
 };
 
 /**
  * Update element with data from modal window
+ *
+ * @param {jQuery} $modalWindow
  */
 Text.prototype.update = function($modalWindow){
     this._text = $modalWindow.find('textarea[name=text]').val();

@@ -8,11 +8,12 @@ var BaseElement = require('../base/base-element'),
  * @param {ObjectRegistry} objectRegistry
  * @param {StyleRegistry} styleRegistry
  * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  * @param {jQuery} $element
  */
-function Column(objectRegistry, styleRegistry, jqueryCache, config, $element){
-    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
+function Column(objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element){
+    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element);
 }
 
 Column.prototype = Object.create(BaseElement.prototype, {});
@@ -21,19 +22,14 @@ Column.prototype.constructor = Column;
 /**
  * Update element styles
  */
-Column.prototype.updateStyles = function(){
-    if (this._applyStyleInputs()) {
-        var container = this._$element.children('.block-content').children('.site-column');
+Column.prototype._applyStyles = function(){
+    var container = this._$element.children('.block-content').children('.site-column');
 
-        this._applyCss(container);
+    this._applyCss(container);
 
-        var elementStyles = [];
-        elementStyles.push(this._styleRegistry.get(styleConsts.STYLE_BACKGROUND).toStyle());
-        elementStyles.push(this._styleRegistry.get(styleConsts.STYLE_FLEX_GROW).toStyle());
-        elementStyles.push(this._styleRegistry.get(styleConsts.STYLE_FLEX_SHRINK).toStyle());
-
-        this._$element.attr('style', elementStyles.join(';'));
-    }
+    this._styleRegistry.get(styleConsts.STYLE_BACKGROUND).applyCss(this._$element);
+    this._styleRegistry.get(styleConsts.STYLE_FLEX_GROW).applyCss(this._$element);
+    this._styleRegistry.get(styleConsts.STYLE_FLEX_SHRINK).applyCss(this._$element);
 };
 
 module.exports = Column;

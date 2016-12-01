@@ -5,70 +5,90 @@
  * @param {ObjectRegistry} objectRegistry
  * @param {StyleRegistry} styleRegistry
  * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function BaseElementFactory(objectRegistry, styleRegistry, jqueryCache, config){
+function BaseElementFactory(objectRegistry, styleRegistry, jqueryCache, templateCache, config){
     this._objectRegistry = objectRegistry;
     this._styleRegistry = styleRegistry;
     this._jqueryCache = jqueryCache;
+    this._templateCache = templateCache;
     this._config = config;
-    this._blockTemplate = this._jqueryCache.get('#block-template').children('.block-container');
+    this._blockTemplate = this._config.blockTemplate;
 
     this._title = this._config.title;
     this._canBeDeleted = this._config.canBeDeleted;
     this._canBeMoved = this._config.canBeMoved;
     this._canBeUpdated = this._config.canBeUpdated;
-    this._template = this._jqueryCache.get(this._config.templateId).children(this._config.templateSelector);
+    this._template = this._config.template;
 }
 
 /**
  * Creates element and adds it to object registry
  *
- * @return {jQuery}
+ * @param {Object} customConfig
+ * @return {Promise}
  */
-BaseElementFactory.prototype.create = function(){
-    var $block = this._blockTemplate.clone(),
-        $blockButtons = $block.children('.block-buttons');
+BaseElementFactory.prototype.create = function(customConfig){
+    var config = customConfig || this._config,
+        $block;
 
-    if (!this._canBeDeleted) {
-        $blockButtons.find('.btn-delete').remove();
-    }
+    return this._templateCache.get(this._blockTemplate)
+        .then((function(blockHtml) {
+            $block = $(blockHtml);
 
-    if (!this._canBeMoved) {
-        $blockButtons.find('.btn-move').remove();
-    }
+            var $blockButtons = $block.children('.block-buttons');
 
-    if (!this._canBeUpdated) {
-        $blockButtons.find('.btn-update').remove();
-    }
+            if (!this._canBeDeleted) {
+                $blockButtons.find('.btn-delete').remove();
+            }
 
-    if ($blockButtons.children().length === 0) {
-        $blockButtons.remove();
-    }
+            if (!this._canBeMoved) {
+                $blockButtons.find('.btn-move').remove();
+            }
 
-    $block.children('.block-content').append(this.render());
-    $block.children('.block-title').text(this._title);
+            if (!this._canBeUpdated) {
+                $blockButtons.find('.btn-update').remove();
+            }
 
-    var element = this.createElement($block);
-    this._objectRegistry.add(element);
+            if ($blockButtons.children().length === 0) {
+                $blockButtons.remove();
+            }
 
-    return element;
+            $block.children('.block-title').text(this._title);
+
+            return this.render(config);
+        }).bind(this))
+        .then((function(renderedElement){
+            $block.children('.block-content').append(renderedElement);
+
+            var element = this._createElement(config, $block);
+            this._objectRegistry.add(element);
+
+            return element;
+        }).bind(this));
 };
 
 /**
  * Create element handle
+ *
+ * @param {Object} customConfig
+ * @return {BaseElement}
  */
-BaseElementFactory.prototype.createElement = function($element){
-    return new this._config.elementClass(this._objectRegistry, this._styleRegistry, this._jqueryCache, this._config, $element);
+BaseElementFactory.prototype._createElement = function(customConfig, $element){
+    return new this._config.elementClass(this._objectRegistry, this._styleRegistry, this._jqueryCache, this._templateCache, customConfig || this._config, $element);
 };
 
 /**
  * Render element within block
  *
- * @return {jQuery}
+ * @param {Object} customConfig
+ * @return {Promise}
  */
-BaseElementFactory.prototype.render = function(){
-    return this._template.clone();
+BaseElementFactory.prototype.render = function(customConfig){
+    return this._templateCache.get(this._template).then(function(templateHtml) {
+        return $(templateHtml);
+    });
 };
 
 /**

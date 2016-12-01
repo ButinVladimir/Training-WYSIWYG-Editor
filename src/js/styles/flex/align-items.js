@@ -4,11 +4,11 @@ var SelectStyle = require('../base/select-style');
  * Align items style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function AlignItems(jqueryCache, config){
-    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
+function AlignItems(templateCache, config){
+    SelectStyle.prototype.constructor.call(this, templateCache, config);
 }
 
 AlignItems.prototype = Object.create(SelectStyle.prototype, {});

@@ -2,16 +2,16 @@
  * Basic style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function BaseStyle(jqueryCache, config){
-    this._jqueryCache = jqueryCache;
+function BaseStyle(templateCache, config){
+    this._templateCache = templateCache;
     this._config = config;
 
     this._param = this._config.param;
     this._title = this._config.title;
-    this._templateId = this._config.templateId;
+    this._template = this._config.template;
     this._value = '';
     this._$element = null;
 }
@@ -19,7 +19,7 @@ function BaseStyle(jqueryCache, config){
 /**
  * Set style value
  */
-BaseStyle.prototype.setValue = function(value){
+BaseStyle.prototype.setValue = function(value, withoutUpdate){
     throw new Error('Set style value is not implemented');
 };
 
@@ -31,10 +31,10 @@ BaseStyle.prototype.render = function(){
 };
 
 /**
- * Convert style value to css
+ * Apply style to element
  */
-BaseStyle.prototype.toStyle = function(){
-    return this._param + ': '+ this._value;
+BaseStyle.prototype.applyCss = function($element){
+    $element.css(this._param, this._value);
 };
 
 /**
@@ -90,10 +90,12 @@ BaseStyle.prototype.getError = function(){
 /**
  * Create element content from template
  *
- * @return {jQuery}
+ * @return {Promise}
  */
-BaseStyle.prototype.createElementContent = function(){
-    return this._jqueryCache.get(this._templateId).children().clone();
+BaseStyle.prototype._createElementContent = function(){
+    return this._templateCache.get(this._template).then((function(elementHtml) {
+        this._$element = $(elementHtml);
+    }).bind(this));
 };
 
 module.exports = BaseStyle;

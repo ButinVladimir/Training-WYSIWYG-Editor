@@ -4,11 +4,11 @@ var SelectStyle = require('../base/select-style');
  * Border style style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function BorderStyle(jqueryCache, config){
-    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
+function BorderStyle(templateCache, config){
+    SelectStyle.prototype.constructor.call(this, templateCache, config);
 }
 
 BorderStyle.prototype = Object.create(SelectStyle.prototype, {});

@@ -8,11 +8,12 @@ var BaseElement = require('../base/base-element'),
  * @param {ObjectRegistry} objectRegistry
  * @param {StyleRegistry} styleRegistry
  * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  * @param {jQuery} $element
  */
-function Container(objectRegistry, styleRegistry, jqueryCache, config, $element){
-    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
+function Container(objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element){
+    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element);
 }
 
 Container.prototype = Object.create(BaseElement.prototype, {});
@@ -28,14 +29,12 @@ Container.prototype.delete = function(){
 /**
  * Update element styles
  */
-Container.prototype.updateStyles = function(){
-    if (this._applyStyleInputs()) {
-        var container = this._$element.children('.block-content').children('.site-container');
+Container.prototype._applyStyles = function(){
+    var container = this._$element.children('.block-content').children('.site-container');
 
-        this._applyCss(container);
+    this._applyCss(container);
 
-        this._$element.attr('style', this._styleRegistry.get(styleConsts.STYLE_BACKGROUND).toStyle());
-    }
+    this._styleRegistry.get(styleConsts.STYLE_BACKGROUND).applyCss(this._$element);
 };
 
 module.exports = Container;

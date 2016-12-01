@@ -5,7 +5,7 @@ var baseElement = require('../base'),
 var element = Object.assign({}, baseElement, {
     title: 'Container',
     type: elementConsts.ELEMENT_CONTAINER,
-    templateId: '#container-template',
+    template: 'templates/elements/container.html',
     templateSelector: '.site-container',
     supportedSubelements: [
         elementConsts.ELEMENT_ROW
@@ -20,7 +20,6 @@ element.styles = Object.create(null, {});
 element.styles[styleConsts.STYLE_PADDING] = '0';
 element.styles[styleConsts.STYLE_BORDER_WIDTH] = '0';
 element.styles[styleConsts.STYLE_BORDER_STYLE] = 'none';
-element.styles[styleConsts.STYLE_BORDER_COLOR] = '#000000';
 element.styles[styleConsts.STYLE_BORDER_COLOR] = '#000000';
 element.styles[styleConsts.STYLE_BACKGROUND] = '#ffffff';
 

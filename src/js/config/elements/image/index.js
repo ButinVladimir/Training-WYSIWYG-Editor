@@ -5,15 +5,15 @@ var baseElement = require('../base'),
 var element = Object.assign({}, baseElement, {
     title: 'Image',
     type: elementConsts.ELEMENT_IMAGE,
-    templateId: '#image-template',
+    template: 'templates/elements/image.html',
     templateSelector: '.site-image',
     supportedSubelements: [
     ],
     factoryClass: require('../../../elements/image/image-factory'),
     elementClass: require('../../../elements/image/image'),
     canBeUpdated: true,
-    default: 'http://lapku.ru/images/42487/kak-uzanat-pochemu-krichit-kotenok.jpg',
-    modalTemplateId: '#modal-image-template',
+    src: 'http://lapku.ru/images/42487/kak-uzanat-pochemu-krichit-kotenok.jpg',
+    modalTemplate: 'templates/modals/image.html',
 });
 
 element.styles = Object.create(null, {});

@@ -8,15 +8,15 @@ var BaseElement = require('../base/base-element'),
  * @param {ObjectRegistry} objectRegistry
  * @param {StyleRegistry} styleRegistry
  * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  * @param {jQuery} $element
  */
-function Url(objectRegistry, styleRegistry, jqueryCache, config, $element){
-    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
+function Url(objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element){
+    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element);
 
-    this._text = this._config.defaultText;
-    this._url = this._config.defaultUrl;
-    this._modalTemplate = this._jqueryCache.get(this._config.modalTemplateId).children();
+    this._text = this._config.text;
+    this._url = this._config.url;
 }
 
 Url.prototype = Object.create(BaseElement.prototype, {});
@@ -25,27 +25,28 @@ Url.prototype.constructor = Url;
 /**
  * Update element styles
  */
-Url.prototype.updateStyles = function(){
-    if (this._applyStyleInputs()) {
-        var container = this._$element.children('.block-content').children('.site-url');
+Url.prototype._applyStyles = function(){
+    var container = this._$element.children('.block-content').children('.site-url');
 
-        this._applyCss(container.children('a'));
+    this._applyCss(container.children('a'));
 
-        container.attr('style', this._styleRegistry.get(styleConsts.STYLE_TEXT_ALIGN).toStyle());
-    }
+    this._styleRegistry.get(styleConsts.STYLE_TEXT_ALIGN).applyCss(this._$element);
 };
 
 /**
  * Prepare modal window for update
+ *
+ * @param {jQuery} $modalWindow
  */
-Url.prototype.prepareModalWindow = function($modalWindow){
-    $modalWindow.find('.modal-body').append(this._modalTemplate.clone());
+Url.prototype._prepareModalWindow = function($modalWindow){
     $modalWindow.find('textarea[name=text]').val(this._text);
     $modalWindow.find('input[name=url]').val(this._url);
 };
 
 /**
  * Update element with data from modal window
+ *
+ * @param {jQuery} $modalWindow
  */
 Url.prototype.update = function($modalWindow){
     this._text = $modalWindow.find('textarea[name=text]').val();

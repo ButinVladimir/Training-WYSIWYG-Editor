@@ -4,11 +4,11 @@ var ColorStyle = require('../base/color-style');
  * Text color style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function TextColor(jqueryCache, config){
-    ColorStyle.prototype.constructor.call(this, jqueryCache, config);
+function TextColor(templateCache, config){
+    ColorStyle.prototype.constructor.call(this, templateCache, config);
 }
 
 TextColor.prototype = Object.create(ColorStyle.prototype, {});

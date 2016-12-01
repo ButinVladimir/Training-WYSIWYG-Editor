@@ -1,3 +1,3 @@
 module.exports = {
-    templateId: '#select-style-template'
+    template: 'templates/styles/select-style.html'
 };

@@ -7,14 +7,14 @@ var BaseElement = require('../base/base-element');
  * @param {ObjectRegistry} objectRegistry
  * @param {StyleRegistry} styleRegistry
  * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  * @param {jQuery} $element
  */
-function Image(objectRegistry, styleRegistry, jqueryCache, config, $element){
-    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config, $element);
+function Image(objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element){
+    BaseElement.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, templateCache, config, $element);
 
-    this._src = this._config.default;
-    this._modalTemplate = this._jqueryCache.get(this._config.modalTemplateId).children();
+    this._src = this._config.src;
 }
 
 Image.prototype = Object.create(BaseElement.prototype, {});
@@ -23,24 +23,25 @@ Image.prototype.constructor = Image;
 /**
  * Update element styles
  */
-Image.prototype.updateStyles = function(){
-    if (this._applyStyleInputs()) {
-        var container = this._$element.children('.block-content').children('.site-image').children('img');
+Image.prototype._applyStyles = function(){
+    var container = this._$element.children('.block-content').children('.site-image').children('img');
 
-        this._applyCss(container);
-    }
+    this._applyCss(container);
 };
 
 /**
  * Prepare modal window for update
+ *
+ * @param {jQuery} $modalWindow
  */
-Image.prototype.prepareModalWindow = function($modalWindow){
-    $modalWindow.find('.modal-body').append(this._modalTemplate.clone());
+Image.prototype._prepareModalWindow = function($modalWindow){
     $modalWindow.find('input[name=src]').val(this._src);
 };
 
 /**
  * Update element with data from modal window
+ *
+ * @param {jQuery} $modalWindow
  */
 Image.prototype.update = function($modalWindow){
     this._src = $modalWindow.find('input[name=src]').val();

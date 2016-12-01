@@ -1,6 +1,7 @@
 module.exports = {
+    blockTemplate: 'templates/base/block.html',
     canBeUpdated: false,
     canBeDeleted: true,
-    canBeMoved: true,
+    canBeMoved: false,
     supportedSubelements: [],
 };

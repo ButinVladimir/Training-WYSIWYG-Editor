@@ -5,15 +5,15 @@ var baseElement = require('../base'),
 var element = Object.assign({}, baseElement, {
     title: 'Text',
     type: elementConsts.ELEMENT_TEXT,
-    templateId: '#text-template',
+    template: 'templates/elements/text.html',
     templateSelector: '.site-text',
     supportedSubelements: [
     ],
     factoryClass: require('../../../elements/text/text-factory'),
     elementClass: require('../../../elements/text/text'),
     canBeUpdated: true,
-    default: 'This is sample text',
-    modalTemplateId: '#modal-text-template',
+    text: 'This is sample text',
+    modalTemplate: 'templates/modals/text.html',
 });
 
 element.styles = Object.create(null, {});

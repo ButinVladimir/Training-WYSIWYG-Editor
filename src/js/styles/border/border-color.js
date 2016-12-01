@@ -4,11 +4,11 @@ var ColorStyle = require('../base/color-style');
  * Border color style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function BorderColor(jqueryCache, config){
-    ColorStyle.prototype.constructor.call(this, jqueryCache, config);
+function BorderColor(templateCache, config){
+    ColorStyle.prototype.constructor.call(this, templateCache, config);
 }
 
 BorderColor.prototype = Object.create(ColorStyle.prototype, {});

@@ -5,6 +5,7 @@ var elementConsts = require('./consts/elements'),
     objectRegistry = require('./registries/object-registry').getInstance(),
     styleRegistry = require('./registries/style-registry').getInstance(),
     jqueryCache = require('./registries/jquery-cache').getInstance(),
+    templateCache = require('./registries/template-cache').getInstance(),
     objectFactoryRegistry = require('./registries/object-factory-registry').getInstance(),
     $contentContainer = jqueryCache.get('#content-container'),
     $content = jqueryCache.get('#content'),
@@ -14,10 +15,12 @@ var elementConsts = require('./consts/elements'),
     $modalSave = jqueryCache.get('#modal-save'),
     selected = null;
    
-require('./init')(objectRegistry, styleRegistry, objectFactoryRegistry, jqueryCache, config);
+require('./init')(objectRegistry, styleRegistry, objectFactoryRegistry, jqueryCache, templateCache, config);
 
 // Add init container
-$content.append(objectFactoryRegistry.get(elementConsts.ELEMENT_CONTAINER).create().getElement());
+objectFactoryRegistry.get(elementConsts.ELEMENT_CONTAINER).create().then(function(container) {
+    $content.append(container.getElement());
+});
 
 function resetSelection() {
     selected = null;
@@ -41,7 +44,7 @@ $contentContainer.on('click', '.block-container', function(e) {
     $this.addClass('selected');
 
     $styleForm.removeClass('hidden');
-    selected.displayInputs();
+    selected.toggleStyleInputs(true);
 
     selected.iterateSupportedSubelements(function(subelementValue) {
         var li = $('<li>'),
@@ -92,17 +95,17 @@ $styleForm.on('submit', function(e) {
 
 // Add element handler
 $addBtnList.on('click', 'a', function() {
-    var subelement = objectFactoryRegistry.get(+$(this).data('value')).create();
-
-    selected.appendSubelement(subelement);
+    objectFactoryRegistry.get(+$(this).data('value')).create().then(function(subelement) {
+        selected.appendSubelement(subelement);
+    });
 });
 
 // Update element handlers
 $contentContainer.on('click', '.block-container.selected > .block-buttons > .btn-update', function() {
     $modalWindow.find('.modal-body').empty();
-    selected.prepareModalWindow($modalWindow);
-    
-    $modalWindow.modal('show');
+    selected.loadModalWindow($modalWindow).then(function() {
+        $modalWindow.modal('show');
+    });
 });
 
 $modalSave.on('click', function() {

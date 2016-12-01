@@ -4,11 +4,11 @@ var InputStyle = require('../base/input-style');
  * Flex shrink style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function FlexShrink(jqueryCache, config){
-    InputStyle.prototype.constructor.call(this, jqueryCache, config);
+function FlexShrink(templateCache, config){
+    InputStyle.prototype.constructor.call(this, templateCache, config);
 }
 
 FlexShrink.prototype = Object.create(InputStyle.prototype, {});

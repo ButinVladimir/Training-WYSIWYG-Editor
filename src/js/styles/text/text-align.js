@@ -4,11 +4,11 @@ var SelectStyle = require('../base/select-style');
  * Text align style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function TextAlign(jqueryCache, config){
-    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
+function TextAlign(templateCache, config){
+    SelectStyle.prototype.constructor.call(this, templateCache, config);
 }
 
 TextAlign.prototype = Object.create(SelectStyle.prototype, {});

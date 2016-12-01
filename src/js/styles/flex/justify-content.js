@@ -4,11 +4,11 @@ var SelectStyle = require('../base/select-style');
  * Justify content style
  *
  * @constuctor
- * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function JustifyContent(jqueryCache, config){
-    SelectStyle.prototype.constructor.call(this, jqueryCache, config);
+function JustifyContent(templateCache, config){
+    SelectStyle.prototype.constructor.call(this, templateCache, config);
 }
 
 JustifyContent.prototype = Object.create(SelectStyle.prototype, {});

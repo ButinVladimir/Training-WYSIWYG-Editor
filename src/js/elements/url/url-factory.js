@@ -7,13 +7,11 @@ var BaseElementFactory = require('../base/base-element-factory');
  * @param {ObjectRegistry} objectRegistry
  * @param {StyleRegistry} styleRegistry
  * @param {JQueryCache} jqueryCache
+ * @param {TemplateCache} templateCache
  * @param {Object} config
  */
-function UrlFactory(objectRegistry, styleRegistry, jqueryCache, config){
-    BaseElementFactory.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, config);
-
-    this._defaultText = this._config.defaultText;
-    this._defaultUrl = this._config.defaultUrl;
+function UrlFactory(objectRegistry, styleRegistry, jqueryCache, templateCache, config){
+    BaseElementFactory.prototype.constructor.call(this, objectRegistry, styleRegistry, jqueryCache, templateCache, config);
 }
 
 UrlFactory.prototype = Object.create(BaseElementFactory.prototype, {});
@@ -22,16 +20,19 @@ UrlFactory.prototype.constructor = UrlFactory;
 /**
  * Render element within block
  *
- * @return {jQuery}
+ * @param {Object} customConfig
+ * @return {Promise}
  */
-UrlFactory.prototype.render = function(){
-    $element = BaseElementFactory.prototype.render.apply(this);
+UrlFactory.prototype.render = function(customConfig){
+    var config = customConfig || this._config;
 
-    var $link = $element.children('a');
-    $link.text(this._defaultText);
-    $link.attr('href', this._defaultUrl);
+    return BaseElementFactory.prototype.render.apply(this).then((function($element) {
+        var $link = $element.children('a');
+        $link.text(config.text);
+        $link.attr('href', config.url);
 
-    return $element;
+        return $element;
+    }).bind(this));    
 };
 
 module.exports = UrlFactory;

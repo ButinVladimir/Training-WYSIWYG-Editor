@@ -5,16 +5,16 @@ var baseElement = require('../base'),
 var element = Object.assign({}, baseElement, {
     title: 'Url',
     type: elementConsts.ELEMENT_URL,
-    templateId: '#url-template',
+    template: 'templates/elements/url.html',
     templateSelector: '.site-url',
     supportedSubelements: [
     ],
     factoryClass: require('../../../elements/url/url-factory'),
     elementClass: require('../../../elements/url/url'),
     canBeUpdated: true,
-    defaultText: 'This is sample link',
-    defaultUrl: 'https://google.com',
-    modalTemplateId: '#modal-url-template',
+    text: 'This is sample link',
+    url: 'https://google.com',
+    modalTemplate: 'templates/modals/url.html',
 });
 
 element.styles = Object.create(null, {});

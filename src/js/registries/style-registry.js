@@ -65,7 +65,9 @@ StyleRegistry.prototype.hide = function(){
  */
 StyleRegistry.prototype.render = function($inputBlock){
     for (var styleId in this._collection) {
-        this._collection[styleId].render().appendTo($inputBlock);
+        this._collection[styleId].render().then(function($element) {
+            $element.appendTo($inputBlock);
+        });
     }
 };
 
