@@ -8,7 +8,6 @@ var element = Object.assign({}, baseElement, {
     template: 'templates/elements/column.html',
     templateSelector: '.site-column',
     supportedSubelements: [
-        elementConsts.ELEMENT_ROW,
         elementConsts.ELEMENT_TEXT,
         elementConsts.ELEMENT_BUTTON,
         elementConsts.ELEMENT_IMAGE,

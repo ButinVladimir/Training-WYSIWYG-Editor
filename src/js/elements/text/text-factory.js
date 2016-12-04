@@ -18,15 +18,15 @@ TextFactory.prototype = Object.create(BaseElementFactory.prototype, {});
 TextFactory.prototype.constructor = TextFactory;
 
 /**
- * Render element within block
+ * Render element within block for editing
  *
  * @param {Object} customConfig
  * @return {Promise}
  */
-TextFactory.prototype.render = function(customConfig){
+TextFactory.prototype.renderForEdit = function(customConfig){
     var config = customConfig || this._config;
 
-    return BaseElementFactory.prototype.render.apply(this).then((function($element) {
+    return BaseElementFactory.prototype.renderForEdit.apply(this).then((function($element) {
         $element.text(config.text);
 
         return $element;

@@ -64,13 +64,30 @@ ObjectRegistry.prototype.get = function(id){
 };
 
 /**
- * Delete element by id
+ * Recursively delete element by id
  *
  * @param {string} id
  */
-ObjectRegistry.prototype.delete = function(id){
+ObjectRegistry.prototype.deleteRecursive = function(id){
     this._collection[id].delete();
+
     delete this._collection[id];
 };
+
+/**
+ * Start deletion element by id
+ *
+ * @param {string} id
+ */
+ObjectRegistry.prototype.deleteStart = function(id){
+    var element = this._collection[id];
+        parent = element.getParent();
+
+    parent.excludeChild(element);
+    element.delete();
+
+    delete this._collection[id];
+};
+
 
 module.exports = ObjectRegistry;

@@ -18,15 +18,15 @@ ButtonFactory.prototype = Object.create(BaseElementFactory.prototype, {});
 ButtonFactory.prototype.constructor = ButtonFactory;
 
 /**
- * Render element within block
+ * Render element within block for editing
  *
  * @param {Object} customConfig
  * @return {Promise}
  */
-ButtonFactory.prototype.render = function(customConfig){
+ButtonFactory.prototype.renderForEdit = function(customConfig){
     var config = customConfig || this._config;
 
-    return BaseElementFactory.prototype.render.apply(this).then((function($element) {
+    return BaseElementFactory.prototype.renderForEdit.apply(this).then((function($element) {
         $element.children('button').text(config.text);
 
         return $element;

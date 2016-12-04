@@ -18,15 +18,15 @@ ImageFactory.prototype = Object.create(BaseElementFactory.prototype, {});
 ImageFactory.prototype.constructor = ImageFactory;
 
 /**
- * Render element within block
+ * Render element within block for editing
  *
  * @param {Object} customConfig
  * @return {Promise}
  */
-ImageFactory.prototype.render = function(customConfig){
+ImageFactory.prototype.renderForEdit = function(customConfig){
     var config = customConfig || this._config;
 
-    return BaseElementFactory.prototype.render.apply(this).then((function($element) {
+    return BaseElementFactory.prototype.renderForEdit.apply(this).then((function($element) {
         $element.children('img').attr('src', config.src);
 
         return $element;

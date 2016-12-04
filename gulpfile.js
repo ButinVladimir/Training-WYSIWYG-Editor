@@ -87,6 +87,18 @@ gulp.task('bootstrap', function() {
         .pipe(gulp.dest('./build/vendor/bootstrap'));
 });
 
+gulp.task('jszip', function() {
+    return gulp.src('./bower_components/jszip/dist/**/*')
+        .pipe(plumber())
+        .pipe(gulp.dest('./build/vendor/jszip'));
+});
+
+gulp.task('file-saver', function() {
+    return gulp.src('./bower_components/file-saver/**/*')
+        .pipe(plumber())
+        .pipe(gulp.dest('./build/vendor/file-saver'));
+});
+
 gulp.task('lint', ['htmllint', 'csslint', 'jshint']);
-gulp.task('build', ['jquery', 'bootstrap', 'html', 'css', 'js']);
+gulp.task('build', ['jquery', 'bootstrap', 'jszip', 'file-saver', 'html', 'css', 'js']);
 gulp.task('default', ['build', 'server', 'watch']);

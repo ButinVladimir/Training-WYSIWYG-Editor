@@ -3,5 +3,6 @@ module.exports = {
     canBeUpdated: false,
     canBeDeleted: true,
     canBeMoved: false,
+    canBeCopied: true,
     supportedSubelements: [],
 };

@@ -20,6 +20,7 @@ function BaseElementFactory(objectRegistry, styleRegistry, jqueryCache, template
     this._canBeDeleted = this._config.canBeDeleted;
     this._canBeMoved = this._config.canBeMoved;
     this._canBeUpdated = this._config.canBeUpdated;
+    this._canBeCopied = this._config.canBeCopied;
     this._template = this._config.template;
 }
 
@@ -51,13 +52,17 @@ BaseElementFactory.prototype.create = function(customConfig){
                 $blockButtons.find('.btn-update').remove();
             }
 
+            if (!this._canBeCopied) {
+                $blockButtons.find('.btn-copy').remove();
+            }
+
             if ($blockButtons.children().length === 0) {
                 $blockButtons.remove();
             }
 
             $block.children('.block-title').text(this._title);
 
-            return this.render(config);
+            return this.renderForEdit(config);
         }).bind(this))
         .then((function(renderedElement){
             $block.children('.block-content').append(renderedElement);
@@ -80,12 +85,12 @@ BaseElementFactory.prototype._createElement = function(customConfig, $element){
 };
 
 /**
- * Render element within block
+ * Render element within block for editing
  *
  * @param {Object} customConfig
  * @return {Promise}
  */
-BaseElementFactory.prototype.render = function(customConfig){
+BaseElementFactory.prototype.renderForEdit = function(customConfig){
     return this._templateCache.get(this._template).then(function(templateHtml) {
         return $(templateHtml);
     });

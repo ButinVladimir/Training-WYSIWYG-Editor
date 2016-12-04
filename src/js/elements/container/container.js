@@ -30,11 +30,25 @@ Container.prototype.delete = function(){
  * Update element styles
  */
 Container.prototype._applyStyles = function(){
-    var container = this._$element.children('.block-content').children('.site-container');
+    var $container = this._$element.children('.block-content').children('.site-container');
 
-    this._applyCss(container);
+    this._applyCss($container);
 
     this._styleRegistry.get(styleConsts.STYLE_BACKGROUND).applyCss(this._$element);
+};
+
+/**
+ * Builds html for preview or saving
+ *
+ * @return {jQuery}
+ */
+Container.prototype.buildResultHtml = function(){
+    var $element = BaseElement.prototype.buildResultHtml.call(this);
+
+	this.toggleStyleInputs(false);
+    this._applyCss($element);
+
+    return $element;
 };
 
 module.exports = Container;

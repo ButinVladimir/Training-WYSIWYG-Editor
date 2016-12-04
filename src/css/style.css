@@ -51,8 +51,7 @@ textarea {
 }
 
 .site-row {
-    
-    flex-wrap: wrap;
     display: flex;
+    flex-wrap: wrap;
     width: 100%;
 }

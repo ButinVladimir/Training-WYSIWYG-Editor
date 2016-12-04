@@ -24,9 +24,9 @@ Image.prototype.constructor = Image;
  * Update element styles
  */
 Image.prototype._applyStyles = function(){
-    var container = this._$element.children('.block-content').children('.site-image').children('img');
+    var $container = this._$element.children('.block-content').children('.site-image').children('img');
 
-    this._applyCss(container);
+    this._applyCss($container);
 };
 
 /**
@@ -46,6 +46,46 @@ Image.prototype._prepareModalWindow = function($modalWindow){
 Image.prototype.update = function($modalWindow){
     this._src = $modalWindow.find('input[name=src]').val();
     this._$element.children('.block-content').children('.site-image').children('img').attr('src', this._src);
+};
+
+/**
+ * Builds html for preview or saving
+ *
+ * @return {jQuery}
+ */
+Image.prototype.buildResultHtml = function(){
+    var $element = BaseElement.prototype.buildResultHtml.call(this),
+    	$img = $element.children('img');
+
+	this.toggleStyleInputs(false);
+    this._applyCss($img);
+
+    $img.attr('src', this._src);
+
+    return $element;
+};
+
+/**
+ * Set src value
+ *
+ * @param {string} src
+ */
+Image.prototype.setSrc = function(src){
+	this._src = src;
+};
+
+/**
+ * Creates shallow clone element
+ *
+ * @param {jQuery} $element
+ * @return {BaseElement} 
+ */
+Image.prototype.createClone = function($element){
+    var clonedElement = new Image(this._objectRegistry, this._styleRegistry, this._jqueryCache, this._templateCache, this._config, $element);
+
+    clonedElement.setSrc(this._src);
+
+    return clonedElement;
 };
 
 module.exports = Image;

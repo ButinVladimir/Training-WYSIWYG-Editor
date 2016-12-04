@@ -64,10 +64,12 @@ StyleRegistry.prototype.hide = function(){
  * @param {jQuery} $inputBlock
  */
 StyleRegistry.prototype.render = function($inputBlock){
+    var append = function($element) {
+        $element.appendTo($inputBlock);
+    };
+
     for (var styleId in this._collection) {
-        this._collection[styleId].render().then(function($element) {
-            $element.appendTo($inputBlock);
-        });
+        this._collection[styleId].render().then(append);
     }
 };
 

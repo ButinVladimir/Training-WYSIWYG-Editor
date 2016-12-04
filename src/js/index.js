@@ -7,18 +7,27 @@ var elementConsts = require('./consts/elements'),
     jqueryCache = require('./registries/jquery-cache').getInstance(),
     templateCache = require('./registries/template-cache').getInstance(),
     objectFactoryRegistry = require('./registries/object-factory-registry').getInstance(),
+    htmlBuilder = require('./build/html-builder').getInstance(),
     $contentContainer = jqueryCache.get('#content-container'),
     $content = jqueryCache.get('#content'),
     $styleForm = jqueryCache.get('#style-form'),
     $addBtnList = jqueryCache.get('#add-btn-list'),
     $modalWindow = jqueryCache.get('#modal-window'),
     $modalSave = jqueryCache.get('#modal-save'),
+    $previewContainer = jqueryCache.get('#preview-container'),
+    $mainContainer = jqueryCache.get('#main-container'),
+    $previewBtn = jqueryCache.get('#preview-btn'),
+    $saveBtn = jqueryCache.get('#save-btn'),
+    isPreview = false,
+    rootContainer = null;
+    copiedElement = null;
     selected = null;
    
 require('./init')(objectRegistry, styleRegistry, objectFactoryRegistry, jqueryCache, templateCache, config);
 
 // Add init container
 objectFactoryRegistry.get(elementConsts.ELEMENT_CONTAINER).create().then(function(container) {
+    rootContainer = container;
     $content.append(container.getElement());
 });
 
@@ -57,11 +66,15 @@ $contentContainer.on('click', '.block-container', function(e) {
         a.appendTo(li);
         li.appendTo($addBtnList);
     });
+
+    selected.getElement().children('.block-buttons').children('.btn-paste').toggle(!!(copiedElement && selected.isSupportingSubelement(copiedElement.getType())));
 });
 
 // Deletion event handler
-$contentContainer.on('click', '.block-container.selected > .block-buttons > .btn-delete', function() {
-    selected.delete();
+$contentContainer.on('click', '.block-container.selected > .block-buttons > .btn-delete', function(e) {
+    e.stopPropagation();
+    objectRegistry.deleteStart(selected.getId());
+    resetSelection();
 });
 
 // Move element handler
@@ -85,18 +98,30 @@ $contentContainer.on('click', '.block-container.selected > .block-buttons > .btn
     }
 });
 
+// Copy event handler
+$contentContainer.on('click', '.block-container.selected > .block-buttons > .btn-copy', function() {
+    copiedElement = selected;
+});
+
+// Copy event handler
+$contentContainer.on('click', '.block-container.selected > .block-buttons > .btn-paste', function() {
+    if (copiedElement && selected.isSupportingSubelement(copiedElement.getType())) {
+        selected.appendSubelement(copiedElement.deepCopyStart(), true);
+    }
+});
+
 // Style input update handler
 $styleForm.on('submit', function(e) {
     e.preventDefault();
 
-    selected.updateStyles();
+    selected.updateStyles(true);
     return false;
 });
 
 // Add element handler
 $addBtnList.on('click', 'a', function() {
     objectFactoryRegistry.get(+$(this).data('value')).create().then(function(subelement) {
-        selected.appendSubelement(subelement);
+        selected.appendSubelement(subelement, true);
     });
 });
 
@@ -112,4 +137,34 @@ $modalSave.on('click', function() {
     selected.update($modalWindow);
 
     $modalWindow.modal('hide');
+});
+
+// Preview handler
+$previewBtn.click(function() {
+    $previewContainer.empty();
+    isPreview = !isPreview;
+
+    if (isPreview) {
+        htmlBuilder.build(rootContainer).appendTo($previewContainer);
+    }
+
+    $mainContainer.toggle(!isPreview);
+    $previewContainer.toggle(isPreview);
+});
+
+// Save handler
+$saveBtn.click(function() {
+    var $container = $('<div>');
+    htmlBuilder.build(rootContainer).appendTo($container);
+
+    templateCache.get('templates/base/result.html').then(function(html) {
+        var result = html.replace('<!-- CONTENT -->', $container.html());
+
+        var zip = new JSZip();
+        zip.file("page.html", result);
+
+        return zip.generateAsync({type:"blob"});
+    }).then(function(content) {
+        saveAs(content, "page.zip");
+    });
 });

@@ -12,6 +12,7 @@ var element = Object.assign({}, baseElement, {
     ],
     canBeDeleted: false,
     canBeMoved: false,
+    canBeCopied: false,
     factoryClass: require('../../../elements/container/container-factory'),
     elementClass: require('../../../elements/container/container')
 });

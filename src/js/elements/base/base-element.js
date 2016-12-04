@@ -21,6 +21,7 @@ function BaseElement(objectRegistry, styleRegistry, jqueryCache, templateCache, 
     this._type = this._config.type;
     this._canBeDeleted = this._config.canBeDeleted;
     this._canBeUpdated = this._config.canBeUpdated;
+    this._canBeCopied = this._config.canBeCopied;
     this._template = this._config.template;
     this._modalTemplate = this._config.modalTemplate;
 
@@ -49,7 +50,7 @@ BaseElement.prototype.loadModalWindow = function($modalWindow) {
 
         return $modalWindow;
     }).bind(this));
-}
+};
 
 /**
  * Prepare modal window for update
@@ -70,15 +71,19 @@ BaseElement.prototype.update = function(){
 /**
  * Update element styles
  */
-BaseElement.prototype.updateStyles = function(){
-    if (this._applyStyleInputs()) {
+BaseElement.prototype.updateStyles = function(useInputValue){
+    if (this._validateStyleInputs(useInputValue)) {
+        this._applyStyleInputs();
         this._applyStyles();
     }
 };
 
-BaseElement.prototype._applyStyles = function() {
+/**
+ * Apply styles to edit block
+ */
+BaseElement.prototype._applyStyles = function(){
     throw new Error('Apply styles is not implemented');
-}
+};
 
 /**
  * Delete element and all its content
@@ -89,11 +94,23 @@ BaseElement.prototype.delete = function(){
     }
 
     var objectRegistry = this._objectRegistry;
+
     this._children.forEach(function(child) {
-        objectRegistry.delete(child.getId());
+        objectRegistry.deleteRecursive(child.getId());
     });
 
-    this._$element.remove();
+    this._$element.remove(); 
+};
+
+/**
+ * Exclude child from children list
+ *
+ * @param {BaseElement} child
+ */
+BaseElement.prototype.excludeChild = function(child){
+    this._children = this._children.filter(function(element) {
+        return element !== child;
+    });
 };
 
 /**
@@ -113,29 +130,70 @@ BaseElement.prototype.setId = function(id){
  */
 BaseElement.prototype.getId = function(){
     return this._id;
-    this._id = id;
-    this._$element.attr('id', id);
+};
+
+/**
+ * Set element parent
+ *
+ * @param {BaseElement} parent
+ */
+BaseElement.prototype.setParent = function(parent){
+    this._parent = parent;
+};
+
+/**
+ * Get element parent
+ *
+ * @return {BaseElement}
+ */
+BaseElement.prototype.getParent = function(){
+    return this._parent;
 };
 
 /**
  * Update style values and optionally toggle style form
+ *
+ * @param {boolean} updateInput
  */
-BaseElement.prototype.toggleStyleInputs = function(toggleForm){
+BaseElement.prototype.toggleStyleInputs = function(updateInput){
     var style;
 
     for (var styleId in this._styles) {
         style = this._styleRegistry.get(styleId);
 
-        if (toggleForm) {
+        if (updateInput) {
             style.toggle(true);
         }
 
-        style.setValue(this._styles[styleId], toggleForm);
+        style.setValue(this._styles[styleId], updateInput);
     }
 };
 
 /**
- * Process style inputs and return result of validation
+ * Returns result of validation
+ *
+ * @param {boolean} useInputValue
+ * @return {boolean}
+ */
+BaseElement.prototype._validateStyleInputs = function(useInputValue){
+    for (var styleId in this._styles) {
+        styleInput = this._styleRegistry.get(styleId);
+
+        if (useInputValue) {
+            styleInput.updateValue();
+        }
+
+        if (!styleInput.validate()) {
+            alert(styleInput.getError());
+            return false;
+        } 
+    }
+
+    return true;
+};
+
+/**
+ * Process style inputs
  *
  * @return {boolean}
  */
@@ -143,19 +201,10 @@ BaseElement.prototype._applyStyleInputs = function(){
     var newStyles = Object.create(null, {}), styleInput;
 
     for (var styleId in this._styles) {
-        styleInput = this._styleRegistry.get(styleId);
-        styleInput.updateValue();
-
-        if (!styleInput.validate()) {
-            alert(styleInput.getError());
-            return false;
-        } 
-
-        newStyles[styleId] = styleInput.getValue();
+        newStyles[styleId] = this._styleRegistry.get(styleId).getValue();
     }
 
     Object.assign(this._styles, newStyles);
-    return true;
 };
 
 /**
@@ -187,7 +236,7 @@ BaseElement.prototype.iterateSupportedSubelements = function(callback){
 BaseElement.prototype.isSupportingSubelement = function(subelement){
     return this._supportedSubelements.some(function(supportedSubelement) {
         return subelement == supportedSubelement;
-    })
+    });
 };
 
 /**
@@ -210,14 +259,117 @@ BaseElement.prototype.getElement = function(){
 
 /**
  * Appends subelement to element
+ *
+ * @param {BaseElement} subelement
+ * @param {boolean} updateDom
  */
-BaseElement.prototype.appendSubelement = function(subelement){
+BaseElement.prototype.appendSubelement = function(subelement, updateDom){
     if (!this.isSupportingSubelement(subelement.getType())) {
         throw new Error('Subelement is not supported within element');
     }
 
     this._children.push(subelement);
-    this._$element.children('.block-content').children().append(subelement.getElement());
+    subelement.setParent(this);
+
+    if (updateDom) {
+        this._$element.children('.block-content').children().append(subelement.getElement());
+    }
+};
+
+/**
+ * Builds html for preview or saving
+ *
+ * @return {jQuery}
+ */
+BaseElement.prototype.buildResultHtml = function(){
+    var $element = $(this._templateCache.getDirectly(this._template));
+
+    return $element;
+};
+
+/**
+ * Append html to result element
+ *
+ * @param {jQuery} $parent
+ * @param {jQuery} $appendee
+ * @return {jQuery}
+ */
+BaseElement.prototype.appendResultHtml = function($parent, $appendee){
+    $parent.append($appendee);
+};
+
+/**
+ * Iterate children
+ *
+ * @param {Function} callback
+ */
+BaseElement.prototype.iterateChildren = function(callback){
+    this._children.forEach(callback);
+};
+
+/**
+ * Deep copy of element's childrend
+ *
+ * @param {BaseElement} cloned element
+ */
+BaseElement.prototype.deepCopyChildren = function(clonedElement){
+};
+
+/**
+ * Creates shallow clone element
+ */
+BaseElement.prototype.createClone = function(){
+    throw new Error('Create clone is not supported');
+};
+
+/**
+ * Get child block within element
+ *
+ * @param {BaseElement} child
+ * @param {jQuery} $element
+ * @return {jQuery}
+ */
+BaseElement.prototype.getChildBlock = function(child, $element){
+    return $element.children('.block-content').children().children('#' + child.getId());
+};
+
+/**
+ * Deep copy of element
+ *
+ * @param {jQuery} $element
+ * @return {BaseElement}
+ */
+BaseElement.prototype.deepCopy = function($element){
+    if (!this._canBeCopied) {
+        throw new Error('Element cannot be copied');
+    }
+
+    var clonedElement = this.createClone($element);
+    this._objectRegistry.add(clonedElement);
+
+    this.toggleStyleInputs(false);
+    clonedElement.updateStyles(false);
+
+    this._children.map((function(child) {
+        clonedElement.appendSubelement(child.deepCopy(this.getChildBlock(child, $element)), false);
+    }).bind(this));
+
+    return clonedElement;
+};
+
+/**
+ * Starts deep copying of element
+ *
+ * @return {BaseElement}
+ */
+BaseElement.prototype.deepCopyStart = function(){
+    if (!this._canBeCopied) {
+        throw new Error('Element cannot be copied');
+    }
+
+    var $element = this._$element.clone();
+
+    return this.deepCopy($element);
 };
 
 module.exports = BaseElement;

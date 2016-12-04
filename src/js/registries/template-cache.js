@@ -39,7 +39,7 @@ TemplateCache.prototype.get = function(url){
  * Process queue of template queries
  */
 TemplateCache.prototype._processQueue = function(){
-    if (this._queue.length == 0) {
+    if (this._queue.length === 0) {
         return;
     }
 
@@ -69,6 +69,20 @@ TemplateCache.prototype._processQueue = function(){
         this._queue.shift();
         this._processQueue();
     }
+};
+
+/**
+ * Get template directly by url
+ *
+ * @param {string} url
+ * @return {string}
+ */
+TemplateCache.prototype.getDirectly = function(url){
+    if (!(url in this._collection)) {
+        throw new Error('url must be loaded previously to be used');
+    }
+
+    return this._collection[url];
 };
 
 module.exports = TemplateCache;

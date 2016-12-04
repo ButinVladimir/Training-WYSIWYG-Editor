@@ -18,15 +18,15 @@ UrlFactory.prototype = Object.create(BaseElementFactory.prototype, {});
 UrlFactory.prototype.constructor = UrlFactory;
 
 /**
- * Render element within block
+ * Render element within block for editing
  *
  * @param {Object} customConfig
  * @return {Promise}
  */
-UrlFactory.prototype.render = function(customConfig){
+UrlFactory.prototype.renderForEdit = function(customConfig){
     var config = customConfig || this._config;
 
-    return BaseElementFactory.prototype.render.apply(this).then((function($element) {
+    return BaseElementFactory.prototype.renderForEdit.apply(this).then((function($element) {
         var $link = $element.children('a');
         $link.text(config.text);
         $link.attr('href', config.url);

@@ -26,9 +26,9 @@ Url.prototype.constructor = Url;
  * Update element styles
  */
 Url.prototype._applyStyles = function(){
-    var container = this._$element.children('.block-content').children('.site-url');
+    var $container = this._$element.children('.block-content').children('.site-url');
 
-    this._applyCss(container.children('a'));
+    this._applyCss($container.children('a'));
 
     this._styleRegistry.get(styleConsts.STYLE_TEXT_ALIGN).applyCss(this._$element);
 };
@@ -55,6 +55,58 @@ Url.prototype.update = function($modalWindow){
     var $link = this._$element.children('.block-content').children('.site-url').children('a');
     $link.text(this._text);
     $link.attr('href', this._url);
+};
+
+/**
+ * Builds html for preview or saving
+ *
+ * @return {jQuery}
+ */
+Url.prototype.buildResultHtml = function(){
+    var $element = BaseElement.prototype.buildResultHtml.call(this),
+        $link = $element.children('a');
+
+    this.toggleStyleInputs(false);
+    this._applyCss($link);
+    this._styleRegistry.get(styleConsts.STYLE_TEXT_ALIGN).applyCss($element);
+
+    $link.text(this._text);
+    $link.attr('href', this._url);
+
+    return $element;
+};
+
+/**
+ * Set text value
+ *
+ * @param {string} text
+ */
+Url.prototype.setText = function(text){
+    this._text = text;
+};
+
+/**
+ * Set url value
+ *
+ * @param {string} url
+ */
+Url.prototype.setUrl = function(url){
+    this._url = url;
+};
+
+/**
+ * Creates shallow clone element
+ *
+ * @param {jQuery} $element
+ * @return {BaseElement} 
+ */
+Url.prototype.createClone = function($element){
+    var clonedElement = new Url(this._objectRegistry, this._styleRegistry, this._jqueryCache, this._templateCache, this._config, $element);
+
+    clonedElement.setText(this._text);
+    clonedElement.setUrl(this._url);
+
+    return clonedElement;
 };
 
 module.exports = Url;

@@ -24,9 +24,9 @@ Button.prototype.constructor = Button;
  * Update element styles
  */
 Button.prototype._applyStyles = function(){
-    var container = this._$element.children('.block-content').children('.site-button').children('button');
+    var $container = this._$element.children('.block-content').children('.site-button').children('button');
 
-    this._applyCss(container);
+    this._applyCss($container);
 };
 
 /**
@@ -46,6 +46,46 @@ Button.prototype._prepareModalWindow = function($modalWindow){
 Button.prototype.update = function($modalWindow){
     this._text = $modalWindow.find('input[name=text]').val();
     this._$element.children('.block-content').children('.site-button').children('button').text(this._text);
+};
+
+/**
+ * Builds html for preview or saving
+ *
+ * @return {jQuery}
+ */
+Button.prototype.buildResultHtml = function(){
+    var $element = BaseElement.prototype.buildResultHtml.call(this),
+    	$button = $element.children('button');
+
+	this.toggleStyleInputs(false);
+    this._applyCss($button);
+
+    $button.text(this._text);
+
+    return $element;
+};
+
+/**
+ * Set text value
+ *
+ * @param {string} text
+ */
+Button.prototype.setText = function(text){
+	this._text = text;
+};
+
+/**
+ * Creates shallow clone element
+ *
+ * @param {jQuery} $element
+ * @return {BaseElement} 
+ */
+Button.prototype.createClone = function($element){
+    var clonedElement = new Button(this._objectRegistry, this._styleRegistry, this._jqueryCache, this._templateCache, this._config, $element);
+
+    clonedElement.setText(this._text);
+
+    return clonedElement;
 };
 
 module.exports = Button;
